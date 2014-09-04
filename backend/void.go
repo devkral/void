@@ -5,11 +5,18 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+    "labix.org/v2/mgo"
 )
+
+var mongo *mgo.Session
 
 func main() {
 	log.Println("Hello world!")
-
+    mng, err := mgo.Dial("localhost")
+    mongo = mng
+    if err != nil {
+        log.Fatal("Could not connect to mongodb!")
+    }
 	// Prepare REST-backend
 	wsContainer := restful.NewContainer()
 	wsContainer.Router(restful.CurlyRouter{})
