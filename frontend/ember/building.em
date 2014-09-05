@@ -41,6 +41,11 @@ class App.BuildingsController extends Ember.ArrayController
 class App.BuildingController extends Ember.ObjectController
     actions:
         post: ->
-            c = @store.createRecord 'comment',
-                  text: @content.newcomment
-            c.save()
+            self = this
+            @store.find('user', name: App.sessionUser()).then (u) ->
+                u = u.objectAt 0
+                c = self.store.createRecord 'comment',
+                      text: self.content.newcomment
+                      user: u
+                      building: self.content
+                c.save()

@@ -10,6 +10,14 @@ import (
     "net/http"
 )
 
+type UserWrapper struct {
+  User *User
+}
+
+type UsersWrapper struct {
+  Users []*User
+}
+
 type User struct {
 	Id           bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
 	Email        string
@@ -84,7 +92,16 @@ func (r UserResource) getUsers(req *restful.Request, resp *restful.Response) {
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
-	//TODO:implement
+    if arr, ok := req.Request.URL.Query()["name"]; ok && len(arr) == 1 {
+        user, err := LoadUserByName(arr[0])
+        if err != nil {
+            resp.WriteErrorString(http.StatusNotFound, "no such user")
+        }else {
+            uw := new(UsersWrapper)
+            uw.Users = []*User{user}
+            resp.WriteEntity(uw)
+        }
+    }
 }
 
 func (r UserResource) editUser(req *restful.Request, resp *restful.Response) {

@@ -5,4 +5,5 @@ class App.Comment extends DS.Model
     date : DS.attr 'string'
     user : DS.belongsTo 'user', async:true
     type : DS.attr 'string'
+    building: DS.belongsTo 'building', async:true
 
