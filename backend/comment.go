@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
+    "net/http"
 )
 
 type Commment struct {
@@ -30,17 +31,37 @@ func (r CommentResource) Register(wsContainer *restful.Container) {
 }
 
 func (r CommentResource) getComments(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	//TODO:implement
 }
 
 func (r CommentResource) createComment(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	//TODO:implement
 }
 
 func (r CommentResource) editComment(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	//TODO:implement
 }
 
 func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	//TODO:implement
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
+    "net/http"
 )
 
 type Invitation struct {
@@ -28,5 +29,10 @@ func (r InvitationResource) getInvitation(req *restful.Request, resp *restful.Re
 }
 
 func (r InvitationResource) createInvitation(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	//TODO:implement
 }

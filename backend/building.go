@@ -135,6 +135,11 @@ func (r BuildingResource) Register(wsContainer *restful.Container) {
 }
 
 func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	if buildings, err := LoadBuildings(); err == nil {
 		bw := new(BuildingsWrapper)
 		bw.Buildings = buildings
@@ -145,6 +150,11 @@ func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Respo
 }
 
 func (r BuildingResource) getBuilding(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
 	if err != nil {
 		resp.WriteErrorString(http.StatusNotFound, "no such building")
@@ -167,6 +177,11 @@ func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Res
 }
 
 func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Response) {
+    reqUser := getRequestUser(req)
+    if reqUser == nil {
+        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+        return
+    }
 	bw := new(BuildingWrapper)
 	err := req.ReadEntity(bw)
 	if err == nil {
