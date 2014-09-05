@@ -19,7 +19,9 @@ class App.Building extends DS.Model
     city   : DS.attr 'string'
     zip    : DS.attr 'string'
     lat    : DS.attr 'string'
+    lat_f  : DS.attr 'number'
     lon    : DS.attr 'string'
+    lon_f  : DS.attr 'number'
     
     owner_name  : DS.attr 'string'
     owner_phone : DS.attr 'string'

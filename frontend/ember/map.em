@@ -28,3 +28,28 @@ class App.SingleMapComponent extends Ember.Component
         layer.addTo(@map)
         @positionObserver()
 
+class App.MultiMapComponent extends Ember.Component
+    buildings : []
+    markers : []
+    +observer buildings.[]
+    positionObserver : ->
+        self = this
+        @buildings.forEach (building) ->
+          if building.lat != "" and building.lon != ""
+              m = L.marker([building.lat_f,building.lon_f]).addTo self.map
+              m.bindPopup """<a href="/#/building/#{building.id}/view">#{building.street}</a>"""
+              self.markers.push m
+              #TODO: k-means to find cluster center
+
+    didInsertElement : ->
+        @_super()
+        @$().height "600px"
+        @map = L.map this.$().attr 'id'
+        #TODO: k-means to find cluster center
+        @map.setView [48.3,10.8], 3
+        layer = L.tileLayer 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attribution: 'Map data &amp; Imagery &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+            maxZoom: 18
+        layer.addTo(@map)
+        @positionObserver()
+

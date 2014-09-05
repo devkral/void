@@ -2,8 +2,11 @@ package main
 
 import (
 	"github.com/emicklei/go-restful"
+	"github.com/grindhold/gominatim"
 	"labix.org/v2/mgo/bson"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 // Possible states of a building
@@ -68,14 +71,48 @@ func LoadBuildings() ([]*Building, error) {
 func (b *Building) Save() error {
 	if !b.Id.Valid() {
 		b.Id = bson.NewObjectId()
+		qry := new(gominatim.SearchQuery)
+		qry.Q = b.Street + " " + b.Number + ", " + b.Zip + " " + b.City
+		res, err := qry.Get()
+		if err == nil {
+			b.Lat = res[0].Lat
+			b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
+			b.Lon = res[0].Lon
+			b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
+		} else {
+			log.Println("Err: " + err.Error())
+		}
 	} else {
 	}
 	_, err := mongo.DB("void").C("buildings").UpsertId(b.Id, b)
 	return err
 }
 
-func (b *Building) Update(update *Building) error {
-	return nil
+func (b *Building) Update(u *Building) {
+	if b.Street != u.Street || b.Number != u.Number || b.City != u.City || b.Zip != u.Zip {
+		qry := new(gominatim.SearchQuery)
+		qry.Q = b.Street + " " + b.Number + ", " + b.Zip + " " + b.City
+		res, err := qry.Get()
+		if err == nil {
+			b.Lat = res[0].Lat
+			b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
+			b.Lon = res[0].Lon
+			b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
+		}
+	}
+	b.Street = u.Street
+	b.Number = u.Number
+	b.City = u.City
+	b.Zip = u.Zip
+	b.OwnerName = u.OwnerName
+	b.OwnerPhone = u.OwnerPhone
+	b.OwnerEmail = u.OwnerEmail
+
+	b.Area = u.Area
+
+	b.Description = u.Description
+
+	b.Status = u.Status
 }
 
 func (b *Building) Delete() error {
@@ -140,6 +177,7 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 		}
 		b.Update(bw.Building)
 		b.Save()
+		resp.WriteEntity(bw)
 	} else {
 		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
 	}

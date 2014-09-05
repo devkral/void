@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/emicklei/go-restful"
+	"github.com/grindhold/gominatim"
 	"io/ioutil"
 	"labix.org/v2/mgo"
 	"log"
@@ -31,6 +32,10 @@ func main() {
 	StaticResource{}.Register(wsContainer)
 
 	InitializeAdmin()
+
+	//Initialize Gominatim
+	log.Println("\tInitializing gominatim")
+	gominatim.SetServer("http://nominatim.openstreetmap.org/")
 
 	// Bring up the http server
 	log.Println("\tStarting up the HTTP-Server")
