@@ -7,7 +7,7 @@ import (
 )
 
 type AuthenticationResult struct {
-    Valid bool
+	Valid bool
 }
 
 func authFilter(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
@@ -47,19 +47,19 @@ noauth:
 type AuthResource struct{}
 
 func (r AuthResource) Register(wsContainer *restful.Container) {
-    requestUserMap = map[*restful.Request]*User{}
+	requestUserMap = map[*restful.Request]*User{}
 
-    ws := new(restful.WebService)
-    ws.Produces(restful.MIME_JSON)
-    ws.Path("/auth")
-    ws.Route(ws.GET("/").Filter(authFilter).To(r.authHandler))
-    wsContainer.Add(ws)
+	ws := new(restful.WebService)
+	ws.Produces(restful.MIME_JSON)
+	ws.Path("/auth")
+	ws.Route(ws.GET("/").Filter(authFilter).To(r.authHandler))
+	wsContainer.Add(ws)
 }
 
 func (r AuthResource) authHandler(req *restful.Request, resp *restful.Response) {
-    success := getRequestUser(req) != nil
-    resp.WriteEntity(AuthenticationResult{Valid: success})
-    return
+	success := getRequestUser(req) != nil
+	resp.WriteEntity(AuthenticationResult{Valid: success})
+	return
 }
 
 var requestUserMap map[*restful.Request]*User

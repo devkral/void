@@ -6,8 +6,8 @@ import (
 )
 
 type Invitation struct {
-	Id bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
-    Email string
+	Id    bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
+	Email string
 }
 
 type InvitationResource struct{}
@@ -20,7 +20,7 @@ func (r InvitationResource) Register(wsContainer *restful.Container) {
 
 	ws.Route(ws.GET("/{entry}").Filter(authFilter).To(r.getInvitation))
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createInvitation))
-    wsContainer.Add(ws)
+	wsContainer.Add(ws)
 }
 
 func (r InvitationResource) getInvitation(req *restful.Request, resp *restful.Response) {
@@ -30,4 +30,3 @@ func (r InvitationResource) getInvitation(req *restful.Request, resp *restful.Re
 func (r InvitationResource) createInvitation(req *restful.Request, resp *restful.Response) {
 	//TODO:implement
 }
-

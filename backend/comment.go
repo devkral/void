@@ -6,12 +6,12 @@ import (
 )
 
 type Commment struct {
-	Id   bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
-	Text string
-	Date string
-	User bson.ObjectId `json:"user"`
-	Type string
-  Building bson.ObjectId `json:"building"`
+	Id       bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
+	Text     string
+	Date     string
+	User     bson.ObjectId `json:"user"`
+	Type     string
+	Building bson.ObjectId `json:"building"`
 }
 
 type CommentResource struct{}
@@ -26,7 +26,7 @@ func (r CommentResource) Register(wsContainer *restful.Container) {
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createComment))
 	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editComment))
 	ws.Route(ws.DELETE("/{entry}").Filter(authFilter).To(r.deleteComment))
-    wsContainer.Add(ws)
+	wsContainer.Add(ws)
 }
 
 func (r CommentResource) getComments(req *restful.Request, resp *restful.Response) {

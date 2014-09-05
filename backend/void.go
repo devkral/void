@@ -12,28 +12,28 @@ var mongo *mgo.Session
 
 func main() {
 	log.Println("Entering the void.")
-    log.Println("\tEstablishing connection to mongo DB...")
+	log.Println("\tEstablishing connection to mongo DB...")
 	mng, err := mgo.Dial("localhost")
 	mongo = mng
 	if err != nil {
 		log.Fatal("Could not connect to mongodb!")
 	}
 	// Prepare REST-backend
-    log.Println("\tInitializing REST-Backend...")
+	log.Println("\tInitializing REST-Backend...")
 	wsContainer := restful.NewContainer()
 	wsContainer.Router(restful.CurlyRouter{})
 	BuildingResource{}.Register(wsContainer)
 	UserResource{}.Register(wsContainer)
 	CommentResource{}.Register(wsContainer)
 	InvitationResource{}.Register(wsContainer)
-    AuthResource{}.Register(wsContainer)
+	AuthResource{}.Register(wsContainer)
 	ViewResource{}.Register(wsContainer)
 	StaticResource{}.Register(wsContainer)
 
-    InitializeAdmin()
+	InitializeAdmin()
 
 	// Bring up the http server
-    log.Println("\tStarting up the HTTP-Server")
+	log.Println("\tStarting up the HTTP-Server")
 	server := &http.Server{Addr: ":80", Handler: wsContainer}
 	log.Fatal(server.ListenAndServe())
 }

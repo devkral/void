@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
-    "net/http"
+	"net/http"
 )
 
 // Possible states of a building
@@ -21,11 +21,11 @@ const (
 )
 
 type BuildingsWrapper struct {
-    Buildings []*Building
+	Buildings []*Building
 }
 
 type BuildingWrapper struct {
-    Building *Building
+	Building *Building
 }
 
 type Building struct {
@@ -94,53 +94,53 @@ func (r BuildingResource) Register(wsContainer *restful.Container) {
 	ws.Route(ws.GET("/{entry}").Filter(authFilter).To(r.getBuilding))
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createBuilding))
 	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editBuilding))
-    wsContainer.Add(ws)
+	wsContainer.Add(ws)
 }
 
 func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Response) {
-    if buildings, err := LoadBuildings() ; err == nil {
-        bw := new(BuildingsWrapper)
-        bw.Buildings = buildings
-        resp.WriteEntity(bw)
-    } else {
-        resp.WriteErrorString(http.StatusInternalServerError, "Nothing Found")
-    }
+	if buildings, err := LoadBuildings(); err == nil {
+		bw := new(BuildingsWrapper)
+		bw.Buildings = buildings
+		resp.WriteEntity(bw)
+	} else {
+		resp.WriteErrorString(http.StatusInternalServerError, "Nothing Found")
+	}
 }
 
 func (r BuildingResource) getBuilding(req *restful.Request, resp *restful.Response) {
-    b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
-    if err != nil {
-        resp.WriteErrorString(http.StatusNotFound, "no such building")
-    } else {
-        bw := new(BuildingWrapper)
-        bw.Building = b
-        resp.WriteEntity(bw)
-    }
+	b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
+	if err != nil {
+		resp.WriteErrorString(http.StatusNotFound, "no such building")
+	} else {
+		bw := new(BuildingWrapper)
+		bw.Building = b
+		resp.WriteEntity(bw)
+	}
 }
 
 func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Response) {
-    bw := new(BuildingWrapper)
-    err := req.ReadEntity(bw)
-    if err == nil {
-        bw.Building.Save()
-        resp.WriteEntity(bw)
-    } else {
-        resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
-    }
+	bw := new(BuildingWrapper)
+	err := req.ReadEntity(bw)
+	if err == nil {
+		bw.Building.Save()
+		resp.WriteEntity(bw)
+	} else {
+		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
+	}
 }
 
 func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Response) {
-    bw := new(BuildingWrapper)
-    err := req.ReadEntity(bw)
-    if err == nil {
-        b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
-        if err != nil {
-            resp.WriteErrorString(http.StatusNotFound, "Cannot edit nonexistent building")
-            return
-        }
-        b.Update(bw.Building)
-        b.Save()
-    } else {
-        resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
-    }
+	bw := new(BuildingWrapper)
+	err := req.ReadEntity(bw)
+	if err == nil {
+		b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
+		if err != nil {
+			resp.WriteErrorString(http.StatusNotFound, "Cannot edit nonexistent building")
+			return
+		}
+		b.Update(bw.Building)
+		b.Save()
+	} else {
+		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
+	}
 }
