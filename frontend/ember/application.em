@@ -36,13 +36,30 @@ class App.IndexRoute extends Ember.Route
                       username: ""
                       password: ""
                   building: Ember.Object.create
-                      name: ""
-                      address: ""
+                      street : ""
+                      number : ""
+                      city   : ""
+                      zip    : ""
+                      owner_name : ""
+                      owner_phone : ""
+                      owner_email  : ""
+                      area : 0
+                      description : ""
 
 class App.IndexController extends Ember.ObjectController
     actions:
         post_building: ->
-            Ember.Logger.debug "post"
+            b = @store.createRecord 'building',
+                    street: @content.building.street
+                    number: @content.building.number
+                    city  : @content.building.city
+                    zip   : @content.building.zip
+                    owner_name : @content.building.owner_name
+                    owner_phone : @content.building.owner_phone
+                    owner_email : @content.building.owner_email
+                    area        : @content.building.area
+                    description : @content.building.descritpion
+            b.save()
         login : ->
             Ember.Logger.debug "login"
 

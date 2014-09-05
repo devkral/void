@@ -14,17 +14,52 @@
     </dl>
     {{#bs-button type="default" clicked="login"}}Login{{/bs-button}}
   </div>
-  <div class="col-md-1 separator"></div>
-  <div class="col-md-6">
+  <div class="col-md-1"></div>
+  <div class="col-md-6 buildingform" >
     <h2>Post new Building</h2>
+    <h3><span class="glyphicon glyphicon-map-marker"></span> Location</h3>
     <dl>
-      <dt>Adress</dt>
+      <dt>Street</dt>
       <dd>
-         {{input type="text" value=building.address class="form-control"}}
+         {{input type="text" value=building.street class="form-control"}}
+      </dd>
+      <dt>Number</dt>
+      <dd>
+         {{input type="text" value=building.number class="form-control"}}
       </dd>
       <dt>City</dt>
       <dd>
          {{input type="text" value=building.city class="form-control"}}
+      </dd>
+      <dt>ZIP</dt>
+      <dd>
+         {{input type="text" value=building.zip class="form-control"}}
+      </dd>
+    </dl>
+    <h3><span class="glyphicon glyphicon-user"></span> Owner Location</h3>
+    <dl>
+      <dt><span class="glyphicon glyphicon-user"></span> Owner Name</dt>
+      <dd>
+         {{input type="text" value=building.owner_name class="form-control"}}
+      </dd>
+      <dt><span class="glyphicon glyphicon-earphone"></span> Owner Phone</dt>
+      <dd>
+         {{input type="text" value=building.owner_phone class="form-control"}}
+      </dd>
+      <dt><span class="glyphicon glyphicon-envelope"></span> Owner Email</dt>
+      <dd>
+         {{input type="text" value=building.owner_email class="form-control"}}
+      </dd>
+    </dl>
+    <h3><span class="glyphicon glyphicon-home"></span> Building Info</h3>
+    <dl>
+      <dt>Size (m²)</dt>
+      <dd>
+         {{input type="text" value=building.area class="form-control"}}
+      </dd>
+      <dt>Description</dt>
+      <dd>
+         {{#textarea value=building.description class="form-control"}}{{/textarea}}
       </dd>
     </dl> 
     {{#bs-button type="default" clicked="post_building"}}Post{{/bs-button}}
