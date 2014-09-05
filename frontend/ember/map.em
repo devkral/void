@@ -18,7 +18,7 @@ class App.SingleMapComponent extends Ember.Component
 
     didInsertElement : ->
         @_super()
-        @$().height "400px"
+        @$().height "150px"
         @map = L.map this.$().attr 'id'
         #TODO: k-means to find cluster center
         @map.setView [48.3,10.8], 3
