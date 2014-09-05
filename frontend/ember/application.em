@@ -109,6 +109,6 @@ class App.ApplicationController extends Ember.Controller
             @resetAuthString()
             App.authstring = ""
             @loggedin = false
-            Bootstrap.NM.push 'You are now logged out.', 'success'
+            @transitionToRoute 'index'
             return
 
