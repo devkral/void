@@ -23,9 +23,9 @@ class App.Building extends DS.Model
     lon    : DS.attr 'string'
     lon_f  : DS.attr 'number'
     
-    owner_name  : DS.attr 'string'
-    owner_phone : DS.attr 'string'
-    owner_email : DS.attr 'string'
+    ownername  : DS.attr 'string'
+    ownerphone : DS.attr 'string'
+    owneremail : DS.attr 'string'
 
     area : DS.attr 'number'
     

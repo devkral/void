@@ -43,9 +43,9 @@ class App.IndexRoute extends Ember.Route
                       number : ""
                       city   : ""
                       zip    : ""
-                      owner_name : ""
-                      owner_phone : ""
-                      owner_email  : ""
+                      ownername : ""
+                      ownerphone : ""
+                      owneremail  : ""
                       area : 0
                       description : ""
 
@@ -58,9 +58,9 @@ class App.IndexController extends Ember.ObjectController
                     number: @content.building.number
                     city  : @content.building.city
                     zip   : @content.building.zip
-                    owner_name : @content.building.owner_name
-                    owner_phone : @content.building.owner_phone
-                    owner_email : @content.building.owner_email
+                    ownername : @content.building.ownername
+                    ownerphone : @content.building.ownerphone
+                    owneremail : @content.building.owneremail
                     area        : @content.building.area
                     description : @content.building.descritpion
             b.save()

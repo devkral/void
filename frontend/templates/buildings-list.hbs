@@ -2,11 +2,30 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     {{#each building in model}}
-      <div class="building">
-        <p>
-            {{#link-to "building.view" building.id}}Details{{/link-to}}
-            {{building.street}} {{building.number}}
-        </p>
+      <div class="row">
+        {{#bs-panel}}
+            <div class="row">
+              <div class="col-md-3">
+                <h3><span class="glyphicon glyphicon-map-marker"></span> Location</h3>
+                <p>{{building.street}} {{building.number}}</p>
+                <p>{{building.zip}} {{building.city}}</p>
+              </div>
+              <div class="col-md-3">
+                <h3><span class="glyphicon glyphicon-user"></span> Contact</h3>
+                <p><span class="glyphicon glyphicon-user"></span> <em>Name:</em> {{building.ownername}}</p>
+                <p><span class="glyphicon glyphicon-earphone"></span> <em>Phone:</em> {{building.ownerphone}}</p>
+                <p><span class="glyphicon glyphicon-envelope"></span> <em>Email:</em> {{building.owneremail}}</p>
+              </div>
+              <div class="col-md-3">
+                <h3><span class="glyphicon glyphicon-home"></span> Specifications </h3>
+                <p>Size : {{building.area}} m²</p>
+                <p>Status: {{building.textstatus}}</p>
+              </div>
+              <div class="col-md-3">
+                {{#link-to "building.view" building.id}}Details{{/link-to}}
+              </div>
+            </div>
+        {{/bs-panel}}
       </div> 
     {{else}}
       <div class="well">No buildings</div>

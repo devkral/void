@@ -42,9 +42,9 @@ type Building struct {
 	Lon   string
 	Lon_f float64
 
-	OwnerName  string
-	OwnerPhone string
-	OwnerEmail string
+	Ownername  string
+	Ownerphone string
+	Owneremail string
 
 	Area int
 
@@ -99,9 +99,9 @@ func (b *Building) Update(u *Building) {
 	b.Number = u.Number
 	b.City = u.City
 	b.Zip = u.Zip
-	b.OwnerName = u.OwnerName
-	b.OwnerPhone = u.OwnerPhone
-	b.OwnerEmail = u.OwnerEmail
+	b.Ownername = u.Ownername
+	b.Ownerphone = u.Ownerphone
+	b.Owneremail = u.Owneremail
 
 	b.Area = u.Area
 
