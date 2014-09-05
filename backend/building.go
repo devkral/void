@@ -50,7 +50,7 @@ type Building struct {
 
 	Status int
 
-	Comments []bson.ObjectId
+	Comments []bson.ObjectId `json:"comments"`
 }
 
 func LoadBuildingById(id bson.ObjectId) (*Building, error) {

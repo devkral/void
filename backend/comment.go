@@ -9,9 +9,9 @@ type Commment struct {
 	Id   bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
 	Text string
 	Date string
-	User bson.ObjectId
+	User bson.ObjectId `json:"user"`
 	Type string
-    Building bson.ObjectId
+  Building bson.ObjectId `json:"building"`
 }
 
 type CommentResource struct{}
