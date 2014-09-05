@@ -1,11 +1,14 @@
 class App.BuildingsRoute extends Ember.Route
-    model : -> @store.find('building')
+    model : -> @store.find 'building'
 
 class App.BuildingsMapRoute extends Ember.Route
-    model : -> @store.find('building')
     
 class App.BuildingsListRoute extends Ember.Route
-    model : -> @store.find('building')
+
+class App.BuildingRoute extends Ember.Route
+    model : (params) -> @store.find 'building', params.ident
+
+class App.BuildingViewRoute extends Ember.Route
 
 class App.BuildingSerializer extends DS.RESTSerializer with CapitalAttrs
     keyForRelation: (key,name) -> key
@@ -29,5 +32,8 @@ class App.Building extends DS.Model
     status : DS.attr 'number'
 
     comments : DS.hasMany 'comment', async:true
+    newcomment : DS.attr 'string'
 
 class App.BuildingsController extends Ember.ArrayController
+
+class App.BuildingController extends Ember.ObjectController

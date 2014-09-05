@@ -91,6 +91,7 @@ func (r BuildingResource) Register(wsContainer *restful.Container) {
 	ws.Path("/rest/buildings")
 
 	ws.Route(ws.GET("/").Filter(authFilter).To(r.getBuildings))
+	ws.Route(ws.GET("/{entry}").Filter(authFilter).To(r.getBuilding))
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createBuilding))
 	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editBuilding))
     wsContainer.Add(ws)
@@ -106,11 +107,23 @@ func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Respo
     }
 }
 
+func (r BuildingResource) getBuilding(req *restful.Request, resp *restful.Response) {
+    b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
+    if err != nil {
+        resp.WriteErrorString(http.StatusNotFound, "no such building")
+    } else {
+        bw := new(BuildingWrapper)
+        bw.Building = b
+        resp.WriteEntity(bw)
+    }
+}
+
 func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Response) {
     bw := new(BuildingWrapper)
     err := req.ReadEntity(bw)
     if err == nil {
         bw.Building.Save()
+        resp.WriteEntity(bw)
     } else {
         resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
     }

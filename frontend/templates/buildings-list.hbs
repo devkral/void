@@ -2,7 +2,12 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     {{#each building in model}}
-      <p>Building</p>
+      <div class="building">
+        <p>
+            {{#link-to "building.view" building.id}}Details{{/link-to}}
+            {{building.street}} {{building.number}}
+        </p>
+      </div> 
     {{else}}
       <div class="well">No buildings</div>
     {{/each}}

@@ -23,7 +23,7 @@ App.Router.map ->
     @resource "buildings", ->
         @route "list"
         @route "map"
-    @resource "building", {path: '/building/:id'}, ->
+    @resource "building", {path: '/building/:ident'}, ->
         @route "edit"
         @route "view"
         @resource "comments"
