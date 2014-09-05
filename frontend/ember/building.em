@@ -39,3 +39,8 @@ class App.Building extends DS.Model
 class App.BuildingsController extends Ember.ArrayController
 
 class App.BuildingController extends Ember.ObjectController
+    actions:
+        post: ->
+            c = @store.createRecord 'comment',
+                  text: @content.newcomment
+            c.save()
