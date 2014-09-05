@@ -50,6 +50,7 @@ class App.IndexRoute extends Ember.Route
                       description : ""
 
 class App.IndexController extends Ember.ObjectController
+    needs: ['application']
     actions:
         post_building: ->
             b = @store.createRecord 'building',
@@ -64,13 +65,53 @@ class App.IndexController extends Ember.ObjectController
                     description : @content.building.descritpion
             b.save()
         login : ->
-            Ember.Logger.debug "login"
+            #TODO: Find a better way to redraw templates than location.reload
+            App.authstring = $.base64.btoa @content.login.username+":"+@content.login.password
+            self = this
+            $.ajax HOST+"/auth",
+                async: true
+                dataType: "json"
+                cache: false
+                headers:
+                    Authorization: "Basic "+App.authstring
+                success: (data, status, xhr) ->
+                    self.controllers.application.loggedin = data.Valid
+                    if data.Valid
+                        self.controllers.application.setAuthString App.authstring
+                        location.reload()
+                    else
+                        self.controllers.application.resetAuthString()
+            return
+
 
 class App.ApplicationRoute extends Ember.Route
     model : -> null
+    setupController : (controller, model) ->
+        @_super controller,model
+        @controllerFor('application').loadAuthString()
 
 class App.ApplicationController extends Ember.Controller
+    loggedin : ~> false
+  
+    setAuthString : (a) ->
+        if sessionStorage
+            sessionStorage.void_auth = a
+
+    resetAuthString : ->
+        if sessionStorage
+            sessionStorage.removeItem "void_auth"
+
+    loadAuthString : ->
+        if sessionStorage and sessionStorage.void_auth
+            App.authstring = sessionStorage.void_auth
+            @loggedin = true
+
     actions:
-        createBuilding: ->
-            Ember.Logger.debug "create"
+        logout: ->
+            @resetAuthString()
+            App.authstring = ""
+            @loggedin = false
+            Bootstrap.NM.push 'You are now logged out.', 'success'
+            location.reload()
+            return
 

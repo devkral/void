@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+type AuthenticationResult struct {
+    Valid bool
+}
+
 func authFilter(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
 	var authstr_bytes []byte
 	var authstr string
@@ -38,6 +42,24 @@ func authFilter(req *restful.Request, resp *restful.Response, chain *restful.Fil
 
 noauth:
 	chain.ProcessFilter(req, resp)
+}
+
+type AuthResource struct{}
+
+func (r AuthResource) Register(wsContainer *restful.Container) {
+    requestUserMap = map[*restful.Request]*User{}
+
+    ws := new(restful.WebService)
+    ws.Produces(restful.MIME_JSON)
+    ws.Path("/auth")
+    ws.Route(ws.GET("/").Filter(authFilter).To(r.authHandler))
+    wsContainer.Add(ws)
+}
+
+func (r AuthResource) authHandler(req *restful.Request, resp *restful.Response) {
+    success := getRequestUser(req) != nil
+    resp.WriteEntity(AuthenticationResult{Valid: success})
+    return
 }
 
 var requestUserMap map[*restful.Request]*User

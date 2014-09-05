@@ -56,7 +56,11 @@ func (u *User) SetPassword(pw string) {
 }
 
 func (u *User) Save() error {
-  return nil
+  if !u.Id.Valid() {
+    u.Id = bson.NewObjectId()
+  }
+  _,err :=  mongo.DB("void").C("users").UpsertId(u.Id, u)
+  return err
 }
 
 type UserResource struct{}

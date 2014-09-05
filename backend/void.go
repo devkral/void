@@ -26,6 +26,7 @@ func main() {
 	UserResource{}.Register(wsContainer)
 	CommentResource{}.Register(wsContainer)
 	InvitationResource{}.Register(wsContainer)
+    AuthResource{}.Register(wsContainer)
 	ViewResource{}.Register(wsContainer)
 	StaticResource{}.Register(wsContainer)
 
