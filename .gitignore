@@ -1,3 +1,5 @@
 .*.sw*
 backend/void
 build
+frontend/ember/__drawn_together.em
+frontend/dist/js/application-0.1.js

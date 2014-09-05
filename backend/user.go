@@ -10,12 +10,25 @@ type User struct {
 	Email        string
 	Name         string
 	Organization string
+
+    IPassword    string
+    ISalt        string
+    Password     string
 }
 
 func LoadUserByName(name string) (*User, error) {
     u := new(User)
     err := mongo.DB("void").C("users").Find(bson.M{"name":name,}).One(&u)
 	return u, err
+}
+
+func InitializeAdmin() {
+    if _, err := LoadUserByName("admin") ; err != nil {
+        admin := new(User)
+        admin.Name = "admin"
+        admin.Email = "admin@nonexistent.invalid"
+        admin.Organization = "myorganization"
+    }
 }
 
 func (u *User) Authenticate(pw string) bool {

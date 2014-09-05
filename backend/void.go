@@ -29,6 +29,8 @@ func main() {
 	ViewResource{}.Register(wsContainer)
 	StaticResource{}.Register(wsContainer)
 
+    InitializeAdmin()
+
 	// Bring up the http server
     log.Println("\tStarting up the HTTP-Server")
 	server := &http.Server{Addr: ":80", Handler: wsContainer}
