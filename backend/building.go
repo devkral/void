@@ -4,7 +4,6 @@ import (
 	"github.com/emicklei/go-restful"
 	"github.com/grindhold/gominatim"
 	"labix.org/v2/mgo/bson"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -68,20 +67,24 @@ func LoadBuildings() ([]*Building, error) {
 	return x, err
 }
 
+func (b *Building) getGeoloc() {
+    qry := new(gominatim.SearchQuery)
+    qry.Street = b.Street + " " + b.Number
+    qry.Postalcode = b.Zip
+    qry.City = b.City
+    res, err := qry.Get()
+    if err == nil {
+        b.Lat = res[0].Lat
+        b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
+        b.Lon = res[0].Lon
+        b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
+    }
+}
+
 func (b *Building) Save() error {
 	if !b.Id.Valid() {
 		b.Id = bson.NewObjectId()
-		qry := new(gominatim.SearchQuery)
-		qry.Q = b.Street + " " + b.Number + ", " + b.Zip + " " + b.City
-		res, err := qry.Get()
-		if err == nil {
-			b.Lat = res[0].Lat
-			b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
-			b.Lon = res[0].Lon
-			b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
-		} else {
-			log.Println("Err: " + err.Error())
-		}
+        b.getGeoloc()
 	} else {
 	}
 	_, err := mongo.DB("void").C("buildings").UpsertId(b.Id, b)
@@ -90,15 +93,7 @@ func (b *Building) Save() error {
 
 func (b *Building) Update(u *Building) {
 	if b.Street != u.Street || b.Number != u.Number || b.City != u.City || b.Zip != u.Zip {
-		qry := new(gominatim.SearchQuery)
-		qry.Q = b.Street + " " + b.Number + ", " + b.Zip + " " + b.City
-		res, err := qry.Get()
-		if err == nil {
-			b.Lat = res[0].Lat
-			b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
-			b.Lon = res[0].Lon
-			b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
-		}
+        b.getGeoloc()
 	}
 	b.Street = u.Street
 	b.Number = u.Number
