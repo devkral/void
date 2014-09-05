@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
+    "net/http"
 )
 
 // Possible states of a building
@@ -18,6 +19,14 @@ const (
 	S_PACHT    //TODO: translate to english
 	S_ERBPACHT //TODO: translate to english
 )
+
+type BuildingsWrapper struct {
+    Buildings []*Building
+}
+
+type BuildingWrapper struct {
+    Building *Building
+}
 
 type Building struct {
 	Id     bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
@@ -44,7 +53,7 @@ type Building struct {
 	Comments []bson.ObjectId
 }
 
-func LoadBuildingById(id *bson.ObjectId) (*Building, error) {
+func LoadBuildingById(id bson.ObjectId) (*Building, error) {
 	x := new(Building)
 	err := mongo.DB("void").C("buildings").Find(bson.M{"_id": id}).One(x)
 	return x, err
@@ -52,7 +61,7 @@ func LoadBuildingById(id *bson.ObjectId) (*Building, error) {
 
 func LoadBuildings() ([]*Building, error) {
 	x := make([]*Building, 0)
-	err := mongo.DB("void").C("buildings").Find(bson.M{}).All(x)
+	err := mongo.DB("void").C("buildings").Find(bson.M{}).All(&x)
 	return x, err
 }
 
@@ -88,13 +97,37 @@ func (r BuildingResource) Register(wsContainer *restful.Container) {
 }
 
 func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Response) {
-
+    if buildings, err := LoadBuildings() ; err == nil {
+        bw := new(BuildingsWrapper)
+        bw.Buildings = buildings
+        resp.WriteEntity(bw)
+    } else {
+        resp.WriteErrorString(http.StatusInternalServerError, "Nothing Found")
+    }
 }
 
 func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Response) {
-
+    bw := new(BuildingWrapper)
+    err := req.ReadEntity(bw)
+    if err == nil {
+        bw.Building.Save()
+    } else {
+        resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
+    }
 }
 
 func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Response) {
-
+    bw := new(BuildingWrapper)
+    err := req.ReadEntity(bw)
+    if err == nil {
+        b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
+        if err != nil {
+            resp.WriteErrorString(http.StatusNotFound, "Cannot edit nonexistent building")
+            return
+        }
+        b.Update(bw.Building)
+        b.Save()
+    } else {
+        resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")
+    }
 }

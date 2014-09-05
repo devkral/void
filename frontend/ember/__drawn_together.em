@@ -65,6 +65,12 @@ class App.Comment extends DS.Model
 class App.BuildingsRoute extends Ember.Route
     model : -> @store.find('building')
 
+class App.BuildingsMapRoute extends Ember.Route
+    model : -> @store.find('building')
+    
+class App.BuildingsListRoute extends Ember.Route
+    model : -> @store.find('building')
+
 class App.BuildingSerializer extends DS.RESTSerializer with CapitalAttrs
     keyForRelation: (key,name) -> key
 

@@ -87,6 +87,16 @@ void function () {
       return get$(this, 'store').find('building');
     }
   }));
+  set$(App, 'BuildingsMapRoute', Ember.Route.extend({
+    model: function () {
+      return get$(this, 'store').find('building');
+    }
+  }));
+  set$(App, 'BuildingsListRoute', Ember.Route.extend({
+    model: function () {
+      return get$(this, 'store').find('building');
+    }
+  }));
   set$(App, 'BuildingSerializer', get$(DS, 'RESTSerializer').extend(CapitalAttrs, {
     keyForRelation: function (key, name) {
       return key;
