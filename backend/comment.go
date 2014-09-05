@@ -6,13 +6,17 @@ import (
     "net/http"
 )
 
-type Commment struct {
+type Comment struct {
 	Id       bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
 	Text     string
 	Date     string
 	User     bson.ObjectId `json:"user"`
 	Type     string
 	Building bson.ObjectId `json:"building"`
+}
+
+type CommentWrapper struct {
+    Comment *Comment
 }
 
 type CommentResource struct{}
@@ -46,6 +50,14 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
         return
     }
 	//TODO:implement
+    co := new(CommentWrapper)
+    err := req.ReadEntity(co)
+    if err == nil {
+        co.Comment.Save()
+        resp.WriteEntity(co)
+    } else {
+        resp.WriteErrorString(http.StatusBadRequest, "Your comment makes no sense at all!")
+    }
 }
 
 func (r CommentResource) editComment(req *restful.Request, resp *restful.Response) {
@@ -64,4 +76,12 @@ func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Respo
         return
     }
 	//TODO:implement
+}
+
+func (c *Comment) Save() error {
+    if !c.Id.Valid() {
+        c.Id = bson.NewObjectId()
+    }
+    _, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
+    return err
 }
