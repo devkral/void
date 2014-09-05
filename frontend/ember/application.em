@@ -65,7 +65,6 @@ class App.IndexController extends Ember.ObjectController
                     description : @content.building.descritpion
             b.save()
         login : ->
-            #TODO: Find a better way to redraw templates than location.reload
             App.authstring = $.base64.btoa @content.login.username+":"+@content.login.password
             self = this
             $.ajax HOST+"/auth",
@@ -78,7 +77,6 @@ class App.IndexController extends Ember.ObjectController
                     self.controllers.application.loggedin = data.Valid
                     if data.Valid
                         self.controllers.application.setAuthString App.authstring
-                        location.reload()
                     else
                         self.controllers.application.resetAuthString()
             return
@@ -112,6 +110,5 @@ class App.ApplicationController extends Ember.Controller
             App.authstring = ""
             @loggedin = false
             Bootstrap.NM.push 'You are now logged out.', 'success'
-            location.reload()
             return
 
