@@ -53,7 +53,10 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
     co := new(CommentWrapper)
     err := req.ReadEntity(co)
     if err == nil {
-        co.Comment.Save()
+        err2 := co.Comment.Save()
+        if err2 != nil {
+            resp.WriteErrorString(http.StatusInternalServerError, err2.Error())
+        }
         resp.WriteEntity(co)
     } else {
         resp.WriteErrorString(http.StatusBadRequest, "Your comment makes no sense at all!")
