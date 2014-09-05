@@ -3,6 +3,10 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
+  "math/rand"
+  "encoding/binary"
+  "crypto/sha512"
+  "encoding/hex"
 )
 
 type User struct {
@@ -11,8 +15,8 @@ type User struct {
 	Name         string
 	Organization string
 
-    IPassword    string
-    ISalt        string
+    IPassword    string `json:"-"`
+    ISalt        int64 `json:"-"`
     Password     string
 }
 
@@ -28,12 +32,31 @@ func InitializeAdmin() {
         admin.Name = "admin"
         admin.Email = "admin@nonexistent.invalid"
         admin.Organization = "myorganization"
+        admin.SetPassword("admin")
+        admin.Save()
     }
 }
 
 func (u *User) Authenticate(pw string) bool {
-	//TODO: implement
-	return false
+  s := make([]byte, 8)
+  binary.LittleEndian.PutUint64(s, uint64(u.ISalt))
+  pw_bytes := []byte(pw)
+  sum := sha512.Sum512([]byte(append(pw_bytes, s...)))
+  return u.IPassword == hex.EncodeToString(sum[0:64])
+}
+
+func (u *User) SetPassword(pw string) {
+  u.ISalt = rand.Int63()
+  s := make([]byte, 8)
+  binary.LittleEndian.PutUint64(s, uint64(u.ISalt))
+  pw_bytes := []byte(pw)
+  sum := sha512.Sum512([]byte(append(pw_bytes, s...)))
+  u.IPassword = hex.EncodeToString(sum[0:64])
+  u.Password = "" //Ensure the password will not be returned in PUT-JSON
+}
+
+func (u *User) Save() error {
+  return nil
 }
 
 type UserResource struct{}
