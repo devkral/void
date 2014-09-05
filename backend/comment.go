@@ -25,6 +25,7 @@ func (r CommentResource) Register(wsContainer *restful.Container) {
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createComment))
 	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editComment))
 	ws.Route(ws.DELETE("/{entry}").Filter(authFilter).To(r.deleteComment))
+    wsContainer.Add(ws)
 }
 
 func (r CommentResource) getComments(req *restful.Request, resp *restful.Response) {

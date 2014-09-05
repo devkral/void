@@ -3,21 +3,23 @@ package main
 import (
 	"github.com/emicklei/go-restful"
 	"io/ioutil"
+	"labix.org/v2/mgo"
 	"log"
 	"net/http"
-    "labix.org/v2/mgo"
 )
 
 var mongo *mgo.Session
 
 func main() {
-	log.Println("Hello world!")
-    mng, err := mgo.Dial("localhost")
-    mongo = mng
-    if err != nil {
-        log.Fatal("Could not connect to mongodb!")
-    }
+	log.Println("Entering the void.")
+    log.Println("\tEstablishing connection to mongo DB...")
+	mng, err := mgo.Dial("localhost")
+	mongo = mng
+	if err != nil {
+		log.Fatal("Could not connect to mongodb!")
+	}
 	// Prepare REST-backend
+    log.Println("\tInitializing REST-Backend...")
 	wsContainer := restful.NewContainer()
 	wsContainer.Router(restful.CurlyRouter{})
 	BuildingResource{}.Register(wsContainer)
@@ -28,6 +30,7 @@ func main() {
 	StaticResource{}.Register(wsContainer)
 
 	// Bring up the http server
+    log.Println("\tStarting up the HTTP-Server")
 	server := &http.Server{Addr: ":80", Handler: wsContainer}
 	log.Fatal(server.ListenAndServe())
 }
@@ -42,7 +45,7 @@ func (r ViewResource) Register(wsContainer *restful.Container) {
 }
 
 func (r ViewResource) viewHandler(req *restful.Request, resp *restful.Response) {
-	framecontent, _ := ioutil.ReadFile("frame.html")
+	framecontent, _ := ioutil.ReadFile("index.html")
 	stringcontent := string(framecontent)
 	resp.ResponseWriter.Write([]byte(stringcontent))
 }

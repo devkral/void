@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-3">
+    <h2>Login</h2>
+    <dl>
+      <dt>Username</dt>
+      <dd>
+        {{input type="text" value=login.username class="form-control"}}
+      </dd>
+      <dt>Password</dt>
+      <dd>
+        {{input type="password" value=login.password class="form-control"}}
+      </dd>
+    </dl>
+    {{#bs-button type="default" clicked="login"}}Login{{/bs-button}}
+  </div>
+  <div class="col-md-1 separator"></div>
+  <div class="col-md-6">
+    <h2>Post new Building</h2>
+    <dl>
+      <dt>Adress</dt>
+      <dd>
+         {{input type="text" value=building.address class="form-control"}}
+      </dd>
+      <dt>City</dt>
+      <dd>
+         {{input type="text" value=building.city class="form-control"}}
+      </dd>
+    </dl> 
+    {{#bs-button type="default" clicked="post_building"}}Post{{/bs-button}}
+  </div>
+  <div class="col-md-1"></div>
+</div>
+

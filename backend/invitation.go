@@ -7,6 +7,7 @@ import (
 
 type Invitation struct {
 	Id bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
+    Email string
 }
 
 type InvitationResource struct{}
@@ -17,12 +18,12 @@ func (r InvitationResource) Register(wsContainer *restful.Container) {
 	ws.Produces(restful.MIME_JSON)
 	ws.Path("/rest/invitations")
 
-	ws.Route(ws.GET("/").Filter(authFilter).To(r.getInvitations))
+	ws.Route(ws.GET("/{entry}").Filter(authFilter).To(r.getInvitation))
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createInvitation))
-	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editInvitation))
+    wsContainer.Add(ws)
 }
 
-func (r InvitationResource) getInvitations(req *restful.Request, resp *restful.Response) {
+func (r InvitationResource) getInvitation(req *restful.Request, resp *restful.Response) {
 	//TODO:implement
 }
 
@@ -30,6 +31,3 @@ func (r InvitationResource) createInvitation(req *restful.Request, resp *restful
 	//TODO:implement
 }
 
-func (r InvitationResource) editInvitation(req *restful.Request, resp *restful.Response) {
-	//TODO:implement
-}
