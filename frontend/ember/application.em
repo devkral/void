@@ -29,6 +29,9 @@ App.Router.map ->
         @resource "comments"
     @resource "user", {path: '/user/:id'}, ->
         @route "edit"
+    @resource "invitations", ->
+        @route "new"
+    @resource "invitation", {path: '/invitation/:ident'}
 
 class App.IndexRoute extends Ember.Route
     model: -> Ember.Object.create

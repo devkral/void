@@ -21,10 +21,14 @@
             <li>{{#link-to "buildings.map"}}Map{{/link-to}}</li>
           </ul>
         </li>
-        <li><a href="#about"><span class="glyphicon glyphicon-plus"></span> Invite</a></li>
+        <li>
+          {{#link-to "invitations.new"}}
+            <span class="glyphicon glyphicon-plus"></span> Invite</a>
+          {{/link-to}}
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
 </div>
-<div style="height:50px"></div>
+<div style="height:70px"></div>
 {{outlet}}
