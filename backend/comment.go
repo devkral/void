@@ -19,6 +19,10 @@ type CommentWrapper struct {
     Comment *Comment
 }
 
+type CommentsWrapper struct {
+    Comments []*Comment
+}
+
 type CommentResource struct{}
 
 func (r CommentResource) Register(wsContainer *restful.Container) {
@@ -40,7 +44,14 @@ func (r CommentResource) getComments(req *restful.Request, resp *restful.Respons
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
-	//TODO:implement
+    c, err := LoadComments()
+    if err == nil {
+        cw := new(CommentsWrapper)
+        cw.Comments = c
+        resp.WriteEntity(cw)
+    } else {
+        resp.WriteErrorString(http.StatusInternalServerError, "Nothing found")
+    }
 }
 
 func (r CommentResource) createComment(req *restful.Request, resp *restful.Response) {
@@ -49,7 +60,6 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
-	//TODO:implement
     co := new(CommentWrapper)
     err := req.ReadEntity(co)
     if err == nil {
@@ -88,3 +98,16 @@ func (c *Comment) Save() error {
     _, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
     return err
 }
+
+func LoadCommentById(id bson.ObjectId) (*Comment, error) {
+    x := new(Comment)
+    err := mongo.DB("void").C("comments").Find(bson.M{"_id": id}).One(x)
+    return x, err
+}
+
+func LoadComments() ([]*Comment, error) {
+    x := make([]*Comment, 0)
+    err := mongo.DB("void").C("buildings").Find(bson.M{}).All(&x)
+    return x, err
+}
+
