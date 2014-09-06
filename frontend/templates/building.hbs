@@ -10,45 +10,45 @@
         <dl>
           <dt>Street</dt>
           <dd>
-             {{input type="text" value=building.street class="form-control"}}
+             {{input type="text" value=content.street class="form-control"}}
           </dd>
           <dt>Number</dt>
           <dd>
-             {{input type="text" value=building.number class="form-control"}}
+             {{input type="text" value=content.number class="form-control"}}
           </dd>
           <dt>City</dt>
           <dd>
-             {{input type="text" value=building.city class="form-control"}}
+             {{input type="text" value=content.city class="form-control"}}
           </dd>
           <dt>ZIP</dt>
           <dd>
-             {{input type="text" value=building.zip class="form-control"}}
+             {{input type="text" value=content.zip class="form-control"}}
           </dd>
         </dl>
         <h3><span class="glyphicon glyphicon-user"></span> Owner Contact</h3>
         <dl>
           <dt><span class="glyphicon glyphicon-user"></span> Owner Name</dt>
           <dd>
-             {{input type="text" value=building.ownername class="form-control"}}
+             {{input type="text" value=content.ownername class="form-control"}}
           </dd>
           <dt><span class="glyphicon glyphicon-earphone"></span> Owner Phone</dt>
           <dd>
-             {{input type="text" value=building.ownerphone class="form-control"}}
+             {{input type="text" value=content.ownerphone class="form-control"}}
           </dd>
           <dt><span class="glyphicon glyphicon-envelope"></span> Owner Email</dt>
           <dd>
-             {{input type="text" value=building.owneremail class="form-control"}}
+             {{input type="text" value=content.owneremail class="form-control"}}
           </dd>
         </dl>
         <h3><span class="glyphicon glyphicon-home"></span> Building Info</h3>
         <dl>
           <dt>Size (m²)</dt>
           <dd>
-             {{input type="text" value=building.area class="form-control"}}
+             {{input type="text" value=content.area class="form-control"}}
           </dd>
           <dt>Description</dt>
           <dd>
-             {{#textarea value=building.description class="form-control"}}{{/textarea}}
+             {{#textarea value=content.description class="form-control"}}{{/textarea}}
           </dd>
         </dl>
         <h3>Why?</h3>
@@ -127,7 +127,11 @@
         </dd>
       </dl>
       {{#each comment in model.comments}}
-          <blockquote><span class="glyphicon glyphicon-comment"></span> by {{comment.author.name}}
+          <blockquote>
+            <h4>
+              <span class="glyphicon glyphicon-comment"></span>
+              by {{comment.author.name}} <small>{{fromNow value=comment.date}}</small>
+            </h4>
             {{comment.text}}
           </blockquote>
       {{else}}

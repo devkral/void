@@ -35,6 +35,12 @@ func LoadUserByName(name string) (*User, error) {
 	return u, err
 }
 
+func LoadUserById(id bson.ObjectId) (*User, error) {
+  u := new(User)
+  err := mongo.DB("void").C("users").Find(bson.M{"_id":id}).One(&u)
+  return u, err
+}
+
 func InitializeAdmin() {
 	if _, err := LoadUserByName("admin"); err != nil {
 		admin := new(User)

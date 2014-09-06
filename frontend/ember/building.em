@@ -77,6 +77,7 @@ class App.BuildingController extends Ember.ObjectController
             @content.area = @oldData.area
             @content.description = @oldData.description
             @content.status = @oldData.status
+            @editMode = false
             return
         executeEdit : ->
             @content.save()

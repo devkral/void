@@ -23,6 +23,7 @@ type CommentWrapper struct {
 
 type CommentsWrapper struct {
     Comments []*Comment
+    Users []*User
 }
 
 type CommentResource struct{}
@@ -46,13 +47,29 @@ func (r CommentResource) getComments(req *restful.Request, resp *restful.Respons
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
-    c, err := LoadComments()
-    if err == nil {
+    if arr, ok := req.Request.URL.Query()["ids[]"] ; ok {
+        ret := make([]*Comment,0)
+        users := make([]*User, 0)
+        handled_users := make(map[bson.ObjectId]bool)
+        for i := range arr {
+            if c, err := LoadCommentById(bson.ObjectIdHex(arr[i])) ; err == nil {
+                ret = append(ret, c)
+                if _, ok := handled_users[c.User] ; !ok {
+                    u, err := LoadUserById(c.User)
+                    if err != nil {
+                        continue
+                    }
+                    handled_users[c.User]=true
+                    users = append(users,u)
+                }
+            }
+        }
         cw := new(CommentsWrapper)
-        cw.Comments = c
+        cw.Comments = ret
+        cw.Users = users
         resp.WriteEntity(cw)
     } else {
-        resp.WriteErrorString(http.StatusInternalServerError, "Nothing found")
+        resp.WriteErrorString(http.StatusBadRequest, "need ids[]")
     }
 }
 
