@@ -43,6 +43,8 @@ func main() {
 	log.Fatal(server.ListenAndServe())
 }
 
+type Empty struct{}
+
 type ViewResource struct{}
 
 func (r ViewResource) Register(wsContainer *restful.Container) {

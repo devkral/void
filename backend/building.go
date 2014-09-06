@@ -88,6 +88,17 @@ func (b *Building) AddComment(c *Comment) {
     b.Save()
 }
 
+func (b *Building) RemoveComment(c *Comment) {
+    found := -1
+    for i := range b.Comments {
+        if b.Comments[i] == c.Id {
+            found = i
+        }
+    }
+    b.Comments = append(b.Comments[found:],b.Comments[:found+1]...)
+    b.Save()
+}
+
 func (b *Building) Save() error {
 	if !b.Id.Valid() {
 		b.Id = bson.NewObjectId()
@@ -122,6 +133,7 @@ func (b *Building) Update(u *Building, user *User) {
     c.User = user.Id
     c.Building = b.Id
     b.AddComment(c)
+    c.Save()
 }
 
 func (b *Building) Delete() error {
@@ -200,7 +212,9 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 			return
 		}
 		b.Update(bw.Building,reqUser)
+        b.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		b.Save()
+        bw.Building.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		resp.WriteEntity(bw)
 	} else {
 		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")

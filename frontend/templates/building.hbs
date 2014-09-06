@@ -56,6 +56,7 @@
         information for those who are also involved in the search. For example, write
         down where and how you acquired the new information
         </p>
+        {{#textarea value=content.newcomment class="form-control"}}{{/textarea}}
         {{#bs-button type="default" clicked="leaveEdit"}}
           <span class="glyphicon glyphicon-remove"></span> Cancel 
         {{/bs-button}}
@@ -126,7 +127,7 @@
           {{/bs-button}}<br>
         </dd>
       </dl>
-      {{#each comment in model.comments}}
+      {{#each comment in reversecomments}}
           <blockquote>
             <h4>
               <span class="glyphicon glyphicon-comment"></span>

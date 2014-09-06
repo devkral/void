@@ -39,9 +39,13 @@ class App.Building extends DS.Model
 class App.BuildingsController extends Ember.ArrayController
 
 class App.BuildingController extends Ember.ObjectController
+    reversecomments : ~> @content.comments.toArray().reverse()
     oldData : null
     editMode : ~> false
+    isMine : ~> App.sessionUser == "admin"
     actions:
+        delete : (comment) ->
+            comment.destroyRecord()
         post: ->
             self = this
             @store.find('user', name: App.sessionUser()).then (u) ->
@@ -81,3 +85,5 @@ class App.BuildingController extends Ember.ObjectController
             return
         executeEdit : ->
             @content.save()
+            @editMode = false
+            return

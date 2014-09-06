@@ -26,6 +26,28 @@ type CommentsWrapper struct {
     Users []*User
 }
 
+func (c *Comment) Save() error {
+    if !c.Id.Valid() {
+        c.Id = bson.NewObjectId()
+        c.Date = time.Now().Format(time.RFC3339)
+        if building, err := LoadBuildingById(c.Building) ; err != nil {
+            log.Println("could not save comment to nonexistent building "+c.Building.Hex())
+        }else{
+            building.AddComment(c)
+        }
+    }
+    _, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
+    return err
+}
+
+func (c *Comment) Delete() error {
+    b, err := LoadBuildingById(c.Building)
+    if err == nil {
+      b.RemoveComment(c)
+    }
+    return mongo.DB("void").C("comments").RemoveId(c.Id)
+}
+
 type CommentResource struct{}
 
 func (r CommentResource) Register(wsContainer *restful.Container) {
@@ -36,7 +58,6 @@ func (r CommentResource) Register(wsContainer *restful.Container) {
 
 	ws.Route(ws.GET("/").Filter(authFilter).To(r.getComments))
 	ws.Route(ws.POST("/").Filter(authFilter).To(r.createComment))
-	ws.Route(ws.PUT("/{entry}").Filter(authFilter).To(r.editComment))
 	ws.Route(ws.DELETE("/{entry}").Filter(authFilter).To(r.deleteComment))
 	wsContainer.Add(ws)
 }
@@ -94,14 +115,14 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
     }
 }
 
-func (r CommentResource) editComment(req *restful.Request, resp *restful.Response) {
+/*func (r CommentResource) editComment(req *restful.Request, resp *restful.Response) {
     reqUser := getRequestUser(req)
     if reqUser == nil {
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
 	//TODO:implement
-}
+}*/
 
 func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Response) {
     reqUser := getRequestUser(req)
@@ -109,21 +130,12 @@ func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Respo
         resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
         return
     }
-	//TODO:implement
-}
-
-func (c *Comment) Save() error {
-    if !c.Id.Valid() {
-        c.Id = bson.NewObjectId()
-        c.Date = time.Now().Format(time.RFC3339)
-        if building, err := LoadBuildingById(c.Building) ; err != nil {
-            log.Println("could not save comment to nonexistent building "+c.Building.Hex())
-        }else{
-            building.AddComment(c)
+    if c, err := LoadCommentById(bson.ObjectIdHex(req.PathParameter("entry"))) ; err == nil {
+        if c.User == reqUser.Id {
+            c.Delete()
+            resp.WriteEntity(Empty{})
         }
     }
-    _, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
-    return err
 }
 
 func LoadCommentById(id bson.ObjectId) (*Comment, error) {
