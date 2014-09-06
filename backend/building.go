@@ -52,6 +52,8 @@ type Building struct {
 
 	Status int
 
+    Newcomment string
+
 	Comments []bson.ObjectId `json:"comments"`
 }
 
@@ -81,6 +83,11 @@ func (b *Building) getGeoloc() {
     }
 }
 
+func (b *Building) AddComment(c *Comment) {
+    b.Comments = append(b.Comments, c.Id)
+    b.Save()
+}
+
 func (b *Building) Save() error {
 	if !b.Id.Valid() {
 		b.Id = bson.NewObjectId()
@@ -91,7 +98,7 @@ func (b *Building) Save() error {
 	return err
 }
 
-func (b *Building) Update(u *Building) {
+func (b *Building) Update(u *Building, user *User) {
 	if b.Street != u.Street || b.Number != u.Number || b.City != u.City || b.Zip != u.Zip {
         b.getGeoloc()
 	}
@@ -108,6 +115,13 @@ func (b *Building) Update(u *Building) {
 	b.Description = u.Description
 
 	b.Status = u.Status
+
+    c := new(Comment)
+    c.Type = "logcomment"
+    c.Text = u.Newcomment
+    c.User = user.Id
+    c.Building = b.Id
+    b.AddComment(c)
 }
 
 func (b *Building) Delete() error {
@@ -185,7 +199,7 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 			resp.WriteErrorString(http.StatusNotFound, "Cannot edit nonexistent building")
 			return
 		}
-		b.Update(bw.Building)
+		b.Update(bw.Building,reqUser)
 		b.Save()
 		resp.WriteEntity(bw)
 	} else {

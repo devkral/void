@@ -39,6 +39,8 @@ class App.Building extends DS.Model
 class App.BuildingsController extends Ember.ArrayController
 
 class App.BuildingController extends Ember.ObjectController
+    oldData : null
+    editMode : ~> false
     actions:
         post: ->
             self = this
@@ -48,4 +50,33 @@ class App.BuildingController extends Ember.ObjectController
                       text: self.content.newcomment
                       user: u
                       building: self.content
+                self.content.comments.addObject c
                 c.save()
+        enterEdit : ->
+            @oldData = Ember.Object.create
+                street : @content.street
+                number : @content.number
+                city   : @content.city
+                zip    : @content.zip
+                ownername  : @content.ownername
+                ownerphone : @content.ownerphone
+                owneremail : @content.owneremail
+                area : @content.area
+                description : @content.description
+                status : @content.status
+            @editMode = true
+            return
+        leaveEdit : ->
+            @content.street = @oldData.street
+            @content.number = @oldData.number
+            @content.city = @oldData.city
+            @content.zip = @oldData.zip
+            @content.ownername = @oldData.ownername
+            @content.ownerphone = @oldData.ownerphone
+            @content.owneremail = @oldData.owneremail
+            @content.area = @oldData.area
+            @content.description = @oldData.description
+            @content.status = @oldData.status
+            return
+        executeEdit : ->
+            @content.save()

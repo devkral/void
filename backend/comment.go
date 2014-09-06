@@ -4,6 +4,8 @@ import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
     "net/http"
+  "log"
+  "time"
 )
 
 type Comment struct {
@@ -63,9 +65,11 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
     co := new(CommentWrapper)
     err := req.ReadEntity(co)
     if err == nil {
+        co.Comment.Type="comment"
         err2 := co.Comment.Save()
         if err2 != nil {
             resp.WriteErrorString(http.StatusInternalServerError, err2.Error())
+            return
         }
         resp.WriteEntity(co)
     } else {
@@ -94,6 +98,12 @@ func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Respo
 func (c *Comment) Save() error {
     if !c.Id.Valid() {
         c.Id = bson.NewObjectId()
+        c.Date = time.Now().Format(time.RFC3339)
+        if building, err := LoadBuildingById(c.Building) ; err != nil {
+            log.Println("could not save comment to nonexistent building "+c.Building.Hex())
+        }else{
+            building.AddComment(c)
+        }
     }
     _, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
     return err

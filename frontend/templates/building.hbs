@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-1"></div>
-  <div class="col-md-10">
+  <div class="col-md-4">
     {{#bs-panel}}
       {{single-map lat=model.lat lon=model.lon}}
     {{/bs-panel}}
@@ -56,8 +56,16 @@
         information for those who are also involved in the search. For example, write
         down where and how you acquired the new information
         </p>
-        {{#bs-button type="default" clicked="post_building"}}Edit{{/bs-button}}
+        {{#bs-button type="default" clicked="leaveEdit"}}
+          <span class="glyphicon glyphicon-remove"></span> Cancel 
+        {{/bs-button}}
+        {{#bs-button type="default" clicked="executeEdit"}}
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        {{/bs-button}}
       {{else}}
+        {{#bs-button type="default" clicked="enterEdit"}}
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        {{/bs-button}}
         <h3><span class="glyphicon glyphicon-map-marker"></span> Location</h3>
         <dl>
           <dt>Street</dt>
@@ -105,8 +113,10 @@
         </dl>
       {{/if}}
     {{/bs-panel}}
+   </div>
+   <div class="col-md-6">
     {{#bs-panel}}
-      <h2><span class="glyphicon glyphicon-comment"></span> Comments</h2>
+      <h2><span class="glyphicon glyphicon-comment"></span> Discussion</h2>
       <dl>
         <dt>New Comment:</dt>
         <dd>
@@ -116,7 +126,13 @@
           {{/bs-button}}<br>
         </dd>
       </dl>
-      <div class="well"> no  comments </div>
+      {{#each comment in model.comments}}
+          <blockquote><span class="glyphicon glyphicon-comment"></span> by {{comment.author.name}}
+            {{comment.text}}
+          </blockquote>
+      {{else}}
+        <div class="well"> no  comments </div>
+      {{/each}}
     {{/bs-panel}}
   </div>
 </div>
