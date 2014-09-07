@@ -17,7 +17,7 @@
  *   You should have received a copy of the GNU Affero General Public
  *   License along with Void.
  *   If not, see http://www.gnu.org/licenses/.
- */
+*/
 
 package main
 
@@ -73,7 +73,7 @@ type Building struct {
 
 	Status int
 
-    Newcomment string
+	Newcomment string
 
 	Comments []bson.ObjectId `json:"comments"`
 }
@@ -91,39 +91,39 @@ func LoadBuildings() ([]*Building, error) {
 }
 
 func (b *Building) getGeoloc() {
-    qry := new(gominatim.SearchQuery)
-    qry.Street = b.Street + " " + b.Number
-    qry.Postalcode = b.Zip
-    qry.City = b.City
-    res, err := qry.Get()
-    if err == nil {
-        b.Lat = res[0].Lat
-        b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
-        b.Lon = res[0].Lon
-        b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
-    }
+	qry := new(gominatim.SearchQuery)
+	qry.Street = b.Street + " " + b.Number
+	qry.Postalcode = b.Zip
+	qry.City = b.City
+	res, err := qry.Get()
+	if err == nil {
+		b.Lat = res[0].Lat
+		b.Lat_f, _ = strconv.ParseFloat(b.Lat, 64)
+		b.Lon = res[0].Lon
+		b.Lon_f, _ = strconv.ParseFloat(b.Lon, 64)
+	}
 }
 
 func (b *Building) AddComment(c *Comment) {
-    b.Comments = append(b.Comments, c.Id)
-    b.Save()
+	b.Comments = append(b.Comments, c.Id)
+	b.Save()
 }
 
 func (b *Building) RemoveComment(c *Comment) {
-    found := -1
-    for i := range b.Comments {
-        if b.Comments[i] == c.Id {
-            found = i
-        }
-    }
-    b.Comments = append(b.Comments[found:],b.Comments[:found+1]...)
-    b.Save()
+	found := -1
+	for i := range b.Comments {
+		if b.Comments[i] == c.Id {
+			found = i
+		}
+	}
+	b.Comments = append(b.Comments[found:], b.Comments[:found+1]...)
+	b.Save()
 }
 
 func (b *Building) Save() error {
 	if !b.Id.Valid() {
 		b.Id = bson.NewObjectId()
-        b.getGeoloc()
+		b.getGeoloc()
 	} else {
 	}
 	_, err := mongo.DB("void").C("buildings").UpsertId(b.Id, b)
@@ -132,7 +132,7 @@ func (b *Building) Save() error {
 
 func (b *Building) Update(u *Building, user *User) {
 	if b.Street != u.Street || b.Number != u.Number || b.City != u.City || b.Zip != u.Zip {
-        b.getGeoloc()
+		b.getGeoloc()
 	}
 	b.Street = u.Street
 	b.Number = u.Number
@@ -148,13 +148,13 @@ func (b *Building) Update(u *Building, user *User) {
 
 	b.Status = u.Status
 
-    c := new(Comment)
-    c.Type = "logcomment"
-    c.Text = u.Newcomment
-    c.User = user.Id
-    c.Building = b.Id
-    b.AddComment(c)
-    c.Save()
+	c := new(Comment)
+	c.Type = "logcomment"
+	c.Text = u.Newcomment
+	c.User = user.Id
+	c.Building = b.Id
+	b.AddComment(c)
+	c.Save()
 }
 
 func (b *Building) Delete() error {
@@ -177,11 +177,11 @@ func (r BuildingResource) Register(wsContainer *restful.Container) {
 }
 
 func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
 	if buildings, err := LoadBuildings(); err == nil {
 		bw := new(BuildingsWrapper)
 		bw.Buildings = buildings
@@ -192,11 +192,11 @@ func (r BuildingResource) getBuildings(req *restful.Request, resp *restful.Respo
 }
 
 func (r BuildingResource) getBuilding(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
 	b, err := LoadBuildingById(bson.ObjectIdHex(req.PathParameter("entry")))
 	if err != nil {
 		resp.WriteErrorString(http.StatusNotFound, "no such building")
@@ -219,11 +219,11 @@ func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Res
 }
 
 func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
 	bw := new(BuildingWrapper)
 	err := req.ReadEntity(bw)
 	if err == nil {
@@ -232,10 +232,10 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 			resp.WriteErrorString(http.StatusNotFound, "Cannot edit nonexistent building")
 			return
 		}
-		b.Update(bw.Building,reqUser)
-        b.Id = bson.ObjectIdHex(req.PathParameter("entry"))
+		b.Update(bw.Building, reqUser)
+		b.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		b.Save()
-        bw.Building.Id = bson.ObjectIdHex(req.PathParameter("entry"))
+		bw.Building.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		resp.WriteEntity(bw)
 	} else {
 		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")

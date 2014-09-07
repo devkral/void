@@ -17,7 +17,7 @@
  *   You should have received a copy of the GNU Affero General Public
  *   License along with Void.
  *   If not, see http://www.gnu.org/licenses/.
- */
+*/
 
 package main
 
@@ -28,15 +28,15 @@ import (
 	"github.com/emicklei/go-restful"
 	"labix.org/v2/mgo/bson"
 	"math/rand"
-    "net/http"
+	"net/http"
 )
 
 type UserWrapper struct {
-  User *User
+	User *User
 }
 
 type UsersWrapper struct {
-  Users []*User
+	Users []*User
 }
 
 type User struct {
@@ -57,9 +57,9 @@ func LoadUserByName(name string) (*User, error) {
 }
 
 func LoadUserById(id bson.ObjectId) (*User, error) {
-  u := new(User)
-  err := mongo.DB("void").C("users").Find(bson.M{"_id":id}).One(&u)
-  return u, err
+	u := new(User)
+	err := mongo.DB("void").C("users").Find(bson.M{"_id": id}).One(&u)
+	return u, err
 }
 
 func InitializeAdmin() {
@@ -114,37 +114,37 @@ func (r UserResource) Register(wsContainer *restful.Container) {
 }
 
 func (r UserResource) getUsers(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
-    if arr, ok := req.Request.URL.Query()["name"]; ok && len(arr) == 1 {
-        user, err := LoadUserByName(arr[0])
-        if err != nil {
-            resp.WriteErrorString(http.StatusNotFound, "no such user")
-        }else {
-            uw := new(UsersWrapper)
-            uw.Users = []*User{user}
-            resp.WriteEntity(uw)
-        }
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
+	if arr, ok := req.Request.URL.Query()["name"]; ok && len(arr) == 1 {
+		user, err := LoadUserByName(arr[0])
+		if err != nil {
+			resp.WriteErrorString(http.StatusNotFound, "no such user")
+		} else {
+			uw := new(UsersWrapper)
+			uw.Users = []*User{user}
+			resp.WriteEntity(uw)
+		}
+	}
 }
 
 func (r UserResource) editUser(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
 	//TODO:implement
 }
 
 func (r UserResource) deleteUser(req *restful.Request, resp *restful.Response) {
-    reqUser := getRequestUser(req)
-    if reqUser == nil {
-        resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
-        return
-    }
+	reqUser := getRequestUser(req)
+	if reqUser == nil {
+		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
+		return
+	}
 	//TODO:implement
 }
