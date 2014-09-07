@@ -11,6 +11,8 @@ use cases share, that there are many stakeholders involved in the process of sea
 evaluating, decision-making and so on. Void tries to provide you with a convenient tool to
 organize those things as a self hosted solution.
 
+![Screenshot](https://i.imgur.com/2bTfcJ7.png)
+
 ## Characteristics
 
 Users of Void cannot register themselves on the site, they must be invited by you. They in turn
@@ -23,6 +25,12 @@ efficient if you have other people who keep their eyes open. On Voids startpage,
 can enter buildings to suggest them as possible objects of interest for your search.
 Simply give the link to your Void-installation to anyone who might be interested in helping
 you, and they can notify your group simply by filling out an easy web form.
+
+## Project Status
+
+Unstable. Not featurecomplete yet. Some bugs. In other words, not usable for non-tech-people.
+The main work has been written on a spontaneous hackathon on MRMCD13 under the
+influence of several tschunks.
 
 ## Features
 
