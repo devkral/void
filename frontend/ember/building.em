@@ -69,7 +69,7 @@ class App.BuildingController extends Ember.ObjectController
             comment.destroyRecord()
         post: ->
             self = this
-            @store.find('user', name: App.sessionUser()).then (u) ->
+            @store.find('user', email: App.sessionUser()).then (u) ->
                 u = u.objectAt 0
                 c = self.store.createRecord 'comment',
                       text: self.content.newcomment

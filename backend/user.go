@@ -42,7 +42,6 @@ type UsersWrapper struct {
 type User struct {
 	Id           bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
 	Email        string
-	Name         string
 	Organization string
 
 	IPassword string `json:"-"`
@@ -50,9 +49,9 @@ type User struct {
 	Password  string
 }
 
-func LoadUserByName(name string) (*User, error) {
+func LoadUserByEmail(email string) (*User, error) {
 	u := new(User)
-	err := mongo.DB("void").C("users").Find(bson.M{"name": name}).One(&u)
+	err := mongo.DB("void").C("users").Find(bson.M{"email": email}).One(&u)
 	return u, err
 }
 
@@ -63,11 +62,10 @@ func LoadUserById(id bson.ObjectId) (*User, error) {
 }
 
 func InitializeAdmin() {
-	if _, err := LoadUserByName("admin"); err != nil {
+	if _, err := LoadUserByEmail("admin@nonexistent.invalid"); err != nil {
 		admin := new(User)
-		admin.Name = "admin"
 		admin.Email = "admin@nonexistent.invalid"
-		admin.Organization = "myorganization"
+		admin.Organization = "adminorga"
 		admin.SetPassword("admin")
 		admin.Save()
 	}
@@ -119,8 +117,8 @@ func (r UserResource) getUsers(req *restful.Request, resp *restful.Response) {
 		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
 		return
 	}
-	if arr, ok := req.Request.URL.Query()["name"]; ok && len(arr) == 1 {
-		user, err := LoadUserByName(arr[0])
+	if arr, ok := req.Request.URL.Query()["email"]; ok && len(arr) == 1 {
+		user, err := LoadUserByEmail(arr[0])
 		if err != nil {
 			resp.WriteErrorString(http.StatusNotFound, "no such user")
 		} else {

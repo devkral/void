@@ -40,7 +40,6 @@ type Invitation struct {
 	MongoId      bson.ObjectId `bson:"_id,omitempty"`
 	Id           string        `json:"id,omitempty"`
 	Email        string
-	Username     string
 	Password     string
 	Organization string
 }
@@ -78,7 +77,6 @@ func (i *Invitation) Invite() error {
 
 func (i *Invitation) Activate(d *Invitation) error {
 	user := new(User)
-	user.Name = d.Username
 	user.Email = i.Email
 	user.Organization = d.Organization
 	user.SetPassword(d.Password)

@@ -52,7 +52,7 @@ func authFilter(req *restful.Request, resp *restful.Response, chain *restful.Fil
 	if len(authparams) != 2 {
 		goto noauth
 	}
-	u, err = LoadUserByName(authparams[0])
+	u, err = LoadUserByEmail(authparams[0])
 	if err != nil {
 		goto noauth
 	}
