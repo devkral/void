@@ -92,7 +92,7 @@ func LoadBuildings() ([]*Building, error) {
 
 func (b *Building) getGeoloc() {
 	qry := new(gominatim.SearchQuery)
-  qry.Q = b.Number+", "+b.Street+", "+b.City+", "+b.Zip
+	qry.Q = b.Number + ", " + b.Street + ", " + b.City + ", " + b.Zip
 	res, err := qry.Get()
 	if err == nil {
 		b.Lat = res[0].Lat
@@ -140,10 +140,10 @@ func (b *Building) Update(u *Building, user *User) {
 	b.Ownerphone = u.Ownerphone
 	b.Owneremail = u.Owneremail
 
-  b.Lat = u.Lat
-  b.Lon = u.Lon
-  b.Lat_f = u.Lat_f
-  b.Lon_f = u.Lon_f
+	b.Lat = u.Lat
+	b.Lon = u.Lon
+	b.Lat_f = u.Lat_f
+	b.Lon_f = u.Lon_f
 
 	b.Area = u.Area
 
@@ -239,7 +239,7 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 		b.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		b.Save()
 		bw.Building.Id = bson.ObjectIdHex(req.PathParameter("entry"))
-    bw.Building.Comments = b.Comments
+		bw.Building.Comments = b.Comments
 		resp.WriteEntity(bw)
 	} else {
 		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")

@@ -30,12 +30,12 @@ import (
 )
 
 type Comment struct {
-	Id       bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
-	Text     string
-	Date     string
-	User     bson.ObjectId `json:"user"`
-  Logcomment bool
-	Building bson.ObjectId `json:"building"`
+	Id         bson.ObjectId `bson:"_id,omitempty" json:"id,omitempty"`
+	Text       string
+	Date       string
+	User       bson.ObjectId `json:"user"`
+	Logcomment bool
+	Building   bson.ObjectId `json:"building"`
 }
 
 type CommentWrapper struct {
