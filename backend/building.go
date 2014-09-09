@@ -149,12 +149,12 @@ func (b *Building) Update(u *Building, user *User) {
 	b.Status = u.Status
 
 	c := new(Comment)
-	c.Type = "logcomment"
+	c.Logcomment = true
 	c.Text = u.Newcomment
 	c.User = user.Id
 	c.Building = b.Id
-	b.AddComment(c)
 	c.Save()
+	b.AddComment(c)
 }
 
 func (b *Building) Delete() error {
@@ -236,6 +236,7 @@ func (r BuildingResource) editBuilding(req *restful.Request, resp *restful.Respo
 		b.Id = bson.ObjectIdHex(req.PathParameter("entry"))
 		b.Save()
 		bw.Building.Id = bson.ObjectIdHex(req.PathParameter("entry"))
+    bw.Building.Comments = b.Comments
 		resp.WriteEntity(bw)
 	} else {
 		resp.WriteErrorString(http.StatusBadRequest, "Your building is invalid")

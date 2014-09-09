@@ -105,6 +105,6 @@ class App.BuildingController extends Ember.ObjectController
             @editMode = false
             return
         executeEdit : ->
-            @content.save()
+            @content.save().then (x) ->
             @editMode = false
             return

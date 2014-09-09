@@ -128,13 +128,23 @@
         </dd>
       </dl>
       {{#each comment in reversecomments}}
-          <blockquote>
-            <h4>
-              <span class="glyphicon glyphicon-comment"></span>
-              by {{comment.user.email}} <small>{{fromNow value=comment.date}}</small>
-            </h4>
-            {{comment.text}}
-          </blockquote>
+          {{#if comment.logcomment}}
+            <blockquote>
+              <h4>
+                <span class="glyphicon glyphicon-flash"></span>
+                {{comment.user.email}} changed this building <small>{{fromNow value=comment.date}}</small>
+              </h4>
+              {{comment.text}}
+            </blockquote>
+          {{else}}
+            <blockquote>
+              <h4>
+                <span class="glyphicon glyphicon-comment"></span>
+                by {{comment.user.email}} <small>{{fromNow value=comment.date}}</small>
+              </h4>
+              {{comment.text}}
+            </blockquote>
+          {{/if}}
       {{else}}
         <div class="well"> no  comments </div>
       {{/each}}

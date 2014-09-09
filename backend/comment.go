@@ -34,7 +34,7 @@ type Comment struct {
 	Text     string
 	Date     string
 	User     bson.ObjectId `json:"user"`
-	Type     string
+  Logcomment bool
 	Building bson.ObjectId `json:"building"`
 }
 
@@ -124,7 +124,7 @@ func (r CommentResource) createComment(req *restful.Request, resp *restful.Respo
 	co := new(CommentWrapper)
 	err := req.ReadEntity(co)
 	if err == nil {
-		co.Comment.Type = "comment"
+		co.Comment.Logcomment = false
 		err2 := co.Comment.Save()
 		if err2 != nil {
 			resp.WriteErrorString(http.StatusInternalServerError, err2.Error())
