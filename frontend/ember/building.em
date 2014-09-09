@@ -29,8 +29,6 @@ class App.BuildingsListRoute extends Ember.Route
 class App.BuildingRoute extends Ember.Route
     model : (params) -> @store.find 'building', params.ident
 
-class App.BuildingViewRoute extends Ember.Route
-
 class App.BuildingSerializer extends DS.RESTSerializer with CapitalAttrs
     keyForRelation: (key,name) -> key
 

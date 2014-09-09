@@ -47,11 +47,8 @@ App.Router.map ->
         @route "list"
         @route "map"
     @resource "building", {path: '/building/:ident'}, ->
-        @route "edit"
-        @route "view"
         @resource "comments"
-    @resource "user", {path: '/user/:id'}, ->
-        @route "edit"
+    @resource "user", {path: '/user/:id'}
     @resource "invitations", ->
         @route "new"
     @resource "invitation", {path: '/invitation/:ident'}

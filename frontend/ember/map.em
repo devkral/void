@@ -58,7 +58,7 @@ class App.MultiMapComponent extends Ember.Component
         @buildings.forEach (building) ->
           if building.lat != "" and building.lon != ""
               m = L.marker([building.lat_f,building.lon_f]).addTo self.map
-              m.bindPopup """<a href="/#/building/#{building.id}/view">#{building.street}</a>"""
+              m.bindPopup """<a href="/#/building/#{building.id}">#{building.street}</a>"""
               self.markers.push m
               #TODO: k-means to find cluster center
 
