@@ -21,6 +21,8 @@
 
 HOST= "http://10.40.0.19"
 
+CLDR.defaultLocale = 'en'
+
 window.App = Ember.Application.create
     LOG_TRANSITIONS: true
     LOG_TRANSITIONS_INTERNAL: true

@@ -56,6 +56,7 @@ def buildframe():
 def copythings():
     shutil.copytree(curdir+'frontend/dist', curdir+'build/static/', symlinks=False, ignore=None)
     shutil.copytree(curdir+'frontend/img', curdir+'build/static/img', symlinks=False, ignore=None)
+    shutil.copytree(curdir+'frontend/translations', curdir+'build/static/js/translations', symlinks=False, ignore=None)
     shutil.copy2(curdir+'backend/void', curdir+'build')
 
 def inserttemplates(writeframe):
