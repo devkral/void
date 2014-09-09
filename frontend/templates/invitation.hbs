@@ -2,12 +2,14 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     <h1>Hi there!</h1>
-    <p>You have been invited to this void. Please help your friends search for a new place: </p>
+    <p>
+      You have been invited to this void. Please help your friends search for a new place: <br>
+      Your username will be the email-address your friend provided:
+    </p>
+    <blockquote>
+        {{email}}
+    </blockquote>
     <dl>
-      <dt>Username</dt>
-      <dd>
-        {{input type="text" value=name class="form-control"}}
-      </dd>
       <dt>Organization</dt>
       <dd>
         {{input type="text" value=organization class="form-control"}}

@@ -81,7 +81,7 @@ func (i *Invitation) Activate(d *Invitation) error {
 	user.Organization = d.Organization
 	user.SetPassword(d.Password)
 	if err := user.Save(); err == nil {
-		return mongo.DB("void").C("invitations").RemoveId(i.Id)
+		return mongo.DB("void").C("invitations").Remove(bson.M{"id":i.Id})
 	} else {
 		return err
 	}
