@@ -92,9 +92,7 @@ func LoadBuildings() ([]*Building, error) {
 
 func (b *Building) getGeoloc() {
 	qry := new(gominatim.SearchQuery)
-	qry.Street = b.Street + " " + b.Number
-	qry.Postalcode = b.Zip
-	qry.City = b.City
+  qry.Q = b.Number+", "+b.Street+", "+b.City+", "+b.Zip
 	res, err := qry.Get()
 	if err == nil {
 		b.Lat = res[0].Lat
@@ -132,7 +130,7 @@ func (b *Building) Save() error {
 
 func (b *Building) Update(u *Building, user *User) {
 	if b.Street != u.Street || b.Number != u.Number || b.City != u.City || b.Zip != u.Zip {
-		b.getGeoloc()
+		u.getGeoloc()
 	}
 	b.Street = u.Street
 	b.Number = u.Number
@@ -141,6 +139,11 @@ func (b *Building) Update(u *Building, user *User) {
 	b.Ownername = u.Ownername
 	b.Ownerphone = u.Ownerphone
 	b.Owneremail = u.Owneremail
+
+  b.Lat = u.Lat
+  b.Lon = u.Lon
+  b.Lat_f = u.Lat_f
+  b.Lon_f = u.Lon_f
 
 	b.Area = u.Area
 

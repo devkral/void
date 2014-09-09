@@ -56,7 +56,7 @@ func main() {
 
 	//Initialize Gominatim
 	log.Println("\tInitializing gominatim")
-	gominatim.SetServer("http://nominatim.openstreetmap.org/")
+	gominatim.SetServer("http://open.mapquestapi.com/nominatim/v1")
 
 	// Bring up the http server
 	log.Println("\tStarting up the HTTP-Server")
