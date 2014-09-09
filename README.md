@@ -28,17 +28,15 @@ you, and they can notify your group simply by filling out an easy web form.
 
 ## Project Status
 
-Unstable. Not featurecomplete yet. Some bugs. In other words, not usable for non-tech-people.
-The main work has been written on a spontaneous hackathon on MRMCD13 under the
-influence of several tschunks.
+Featurecomplete for now.
 
 ## Features
 
- * [ ] Keep a List of buildings/flats that are relevant to the interests of your group.
- * [ ] Let random people submit buildings which they consider useful for your group.
- * [ ] Invite other users to your group
- * [ ] Have discussions about buildings
- * [ ] Keep track who changed the record of a building/flat when and why.
+ * [x] Keep a List of buildings/flats that are relevant to the interests of your group.
+ * [x] Let random people submit buildings which they consider useful for your group.
+ * [x] Invite other users to your group
+ * [x] Have discussions about buildings
+ * [x] Keep track who changed the record of a building/flat when and why.
 
 ## License
 
