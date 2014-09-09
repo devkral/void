@@ -42,6 +42,62 @@
         </dl>
         <h3><span class="glyphicon glyphicon-home"></span> Building Info</h3>
         <dl>
+          <dt>Status</dt>
+          <dd>
+            <div class="dropdown" style="display: inline-block;">
+              <button class="btn btn-default dropdown-toggle" id="publish_dropdown" type="button" data-toggle="dropdown">
+                {{statusLabel}}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="publish_dropdown">
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 0}}>
+                    Suspected Empty <i class="fa fa-bullhorn" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 1}}>
+                    Confirmed Empty<i class="fa fa-heart-o" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 2}}>
+                    Sold <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 3}}>
+                    For Rent <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 4}}>
+                    Rented <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 5}}>
+                    For Sale <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 6}}>
+                    Occupied <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 7}}>
+                    Tenure <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" href="#" {{action setStatus 8}}>
+                    Heritary Tenure <i class="fa fa-heart" style="margin-left:5px"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </dd>
           <dt>Size (m²)</dt>
           <dd>
              {{input type="text" value=content.area class="form-control"}}
@@ -103,6 +159,10 @@
         </dl>
         <h3><span class="glyphicon glyphicon-home"></span> Building Info</h3>
         <dl>
+          <dt>Status</dt>
+          <dd>
+             {{statusLabel}}
+          </dd>
           <dt>Size (m²)</dt>
           <dd>
              {{model.area}}

@@ -60,6 +60,18 @@ class App.Building extends DS.Model
 class App.BuildingsController extends Ember.ArrayController
 
 class App.BuildingController extends Ember.ObjectController
+    statusLabel: ~> @statusLabels[@status]
+    setStatus: (x) -> @status = x
+    statusLabels:
+        0 : "suspected empty"
+        1 : "confirmed empty"
+        2 : "sold"
+        3 : "for rent"
+        4 : "rented"
+        5 : "for sale"
+        6 : "occupied"
+        7 : "tenure"
+        8 : "heritary tenure"
     reversecomments : ~> @content.comments.toArray().reverse()
     oldData : null
     editMode : ~> false
