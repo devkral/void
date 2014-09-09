@@ -39,8 +39,8 @@ const (
 	S_RENTED
 	S_TOBUY
 	S_OCCUPIED
-	S_PACHT    //TODO: translate to english
-	S_ERBPACHT //TODO: translate to english
+	S_TENURE
+	S_HERITARY_TENURE
 )
 
 type BuildingsWrapper struct {
