@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
 ########################################################################
@@ -27,8 +27,11 @@
 
 import shutil
 import os
+#import os.path
 import sys
 import subprocess
+curdir=os.getcwd()+"/"
+#curdir=os.path.dirname(__file__)
 
 def compile_go(debug=True):
     output = subprocess.check_output("""cd backend ; 
@@ -36,12 +39,12 @@ def compile_go(debug=True):
                                         go build -o void ;
                                         cd ..
                                         exit 0""", stderr = subprocess.STDOUT, shell=True)
-    print output
+    print(output)
     return
 
 def buildframe():
-    readframe = open('frontend/application.html', 'r')
-    writeframe = open('build/index.html', 'w')
+    readframe = open(curdir+'frontend/application.html', 'r')
+    writeframe = open(curdir+'build/index.html', 'w')
     for line in readframe:
         if line.find('<body>') == -1:
             writeframe.write(line)
@@ -51,12 +54,12 @@ def buildframe():
             inserttemplates(writeframe)
 
 def copythings():
-    shutil.copytree('frontend/dist', 'build/static/', symlinks=False, ignore=None)
-    shutil.copytree('frontend/img', 'build/static/img', symlinks=False, ignore=None)
-    shutil.copy2('backend/void', 'build')
+    shutil.copytree(curdir+'frontend/dist', curdir+'build/static/', symlinks=False, ignore=None)
+    shutil.copytree(curdir+'frontend/img', curdir+'build/static/img', symlinks=False, ignore=None)
+    shutil.copy2(curdir+'backend/void', curdir+'build')
 
 def inserttemplates(writeframe):
-    templatenames = os.listdir('frontend/templates/')
+    templatenames = os.listdir(curdir+'frontend/templates/')
     for i in templatenames:
         if not i.endswith(".hbs"):
             continue
@@ -65,33 +68,33 @@ def inserttemplates(writeframe):
                               + i.split('.')[0].replace('-', '/') + "\">\n")
         else:
             writeframe.write(' '*4 + '<script type="text/x-handlebars">\n')
-        frame = open('frontend/templates/' + i)
+        frame = open(curdir+'frontend/templates/' + i)
         for line in frame:
             writeframe.write(' '*8 + line)
         writeframe.write(' '*4 + '</script>\n')
 
 def insertcomponents(writeframe):
-    componentnames = os.listdir('frontend/components/')
+    componentnames = os.listdir(curdir+'frontend/components/')
     for i in componentnames:
         if not i.endswith(".hb"):
             continue
         writeframe.write(' '*4 + '<script type="text/x-handlebars" data-template-name="components/' + \
                           i.split('.')[0]+"\">\n")
-        frame = open('frontend/components/' + i)
+        frame = open(curdir+'frontend/components/' + i)
         for line in frame:
             writeframe.write(' '*8 + line)
         writeframe.write(' '*4 + '</script>\n')
 
 def packproject():
-    if os.path.exists('build'):
-        shutil.rmtree('build')
-    os.mkdir('./build')
+    if os.path.exists(curdir+'build'):
+        shutil.rmtree(curdir+'build')
+    os.mkdir(curdir+'/build')
     buildframe()
     copythings()
 
 def compile_emberscript(debug=True):
     code = ""
-    em_folder = "frontend/ember"
+    em_folder = curdir+"frontend/ember"
     comp_filename = em_folder+"/__drawn_together.em"
     try:
       os.unlink(comp_filename)
@@ -114,7 +117,7 @@ def compile_emberscript(debug=True):
 
     x = subprocess.check_output("ember-script -j -i %s %s; exit 0"%( \
             comp_filename, ('-m','')[debug]), stderr = subprocess.STDOUT, shell=True)
-    out = open("frontend/dist/js/application-0.1.js","w")
+    out = open(curdir+"frontend/dist/js/application-0.1.js","wb")
     out.write(x)
     out.close()
 
