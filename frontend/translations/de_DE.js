@@ -50,5 +50,14 @@ Em.I18n.translations = {
   'building.post':'Eintragen',
   'building.changed': 'änderte dieses Objekt',
   'building.by': 'von',
-  'building.nothing': 'Keine Kommentare'
+  'building.nothing': 'Keine Kommentare',
+  'building.status_suspected': 'vermuteter Leerstand',
+  'building.status_confirmed': 'bestätigter Leerstand',
+  'building.status_sold' : 'verkauft',
+  'building.status_for_rent': 'zu vermieten',
+  'building.status_rented' : 'vermietet',
+  'building.status_for_sale':'zu vermieten',
+  'building.status_occupied' : 'besetzt',
+  'building.status_tenure' : 'Pacht',
+  'building.status_heritary_tenure': 'Erbpacht'
 };

@@ -50,5 +50,14 @@ Em.I18n.translations = {
   'building.post':'Post',
   'building.changed': 'changed this building',
   'building.by': 'by',
-  'building.nothing': 'No Comments'
+  'building.nothing': 'No Comments',
+  'building.status_suspected': 'suspected empty',
+  'building.status_confirmed': 'confirmed empty',
+  'building.status_sold' : 'sold',
+  'building.status_for_rent': 'for rent',
+  'building.status_rented' : 'rented',
+  'building.status_for_sale':'for sale',
+  'building.status_occupied' : 'squatted',
+  'building.status_tenure' : 'tenure',
+  'building.status_heritary_tenure': 'heritary_tenure'
 };

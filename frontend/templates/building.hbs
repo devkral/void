@@ -6,43 +6,43 @@
     {{/bs-panel}}
     {{#bs-panel}}
       {{#if editMode}}
-        <h3><span class="glyphicon glyphicon-map-marker"></span> {{t index.location}}</h3>
+        <h3><span class="glyphicon glyphicon-map-marker"></span> {{t "index.location"}}</h3>
         <dl>
-          <dt>{{t index.street}}</dt>
+          <dt>{{t "index.street"}}</dt>
           <dd>
              {{input type="text" value=content.street class="form-control"}}
           </dd>
-          <dt>{{t index.number}}</dt>
+          <dt>{{t "index.number"}}</dt>
           <dd>
              {{input type="text" value=content.number class="form-control"}}
           </dd>
-          <dt>{{t index.city}}</dt>
+          <dt>{{t "index.city"}}</dt>
           <dd>
              {{input type="text" value=content.city class="form-control"}}
           </dd>
-          <dt>{{t index.zip}}</dt>
+          <dt>{{t "index.zip"}}</dt>
           <dd>
              {{input type="text" value=content.zip class="form-control"}}
           </dd>
         </dl>
-        <h3><span class="glyphicon glyphicon-user"></span> {{t index.contact}}</h3>
+        <h3><span class="glyphicon glyphicon-user"></span> {{t "index.contact"}}</h3>
         <dl>
-          <dt><span class="glyphicon glyphicon-user"></span> {{t index.contact_name}}</dt>
+          <dt><span class="glyphicon glyphicon-user"></span> {{t "index.contact_name"}}</dt>
           <dd>
              {{input type="text" value=content.ownername class="form-control"}}
           </dd>
-          <dt><span class="glyphicon glyphicon-earphone"></span> {{t index.contact_phone}}</dt>
+          <dt><span class="glyphicon glyphicon-earphone"></span> {{t "index.contact_phone"}}</dt>
           <dd>
              {{input type="text" value=content.ownerphone class="form-control"}}
           </dd>
-          <dt><span class="glyphicon glyphicon-envelope"></span> {{t index.contact_email}}</dt>
+          <dt><span class="glyphicon glyphicon-envelope"></span> {{t "index.contact_email"}}</dt>
           <dd>
              {{input type="text" value=content.owneremail class="form-control"}}
           </dd>
         </dl>
-        <h3><span class="glyphicon glyphicon-home"></span> {{t index.info}}</h3>
+        <h3><span class="glyphicon glyphicon-home"></span> {{t "index.info"}}</h3>
         <dl>
-          <dt>{{t index.status}}</dt>
+          <dt>{{t "index.status"}}</dt>
           <dd>
             <div class="dropdown" style="display: inline-block;">
               <button class="btn btn-default dropdown-toggle" id="publish_dropdown" type="button" data-toggle="dropdown">
@@ -52,119 +52,119 @@
               <ul class="dropdown-menu" role="menu" aria-labelledby="publish_dropdown">
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 0}}>
-                    Suspected Empty <i class="fa fa-bullhorn" style="margin-left:5px"></i>
+                     {{t "building.status_suspected"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 1}}>
-                    Confirmed Empty<i class="fa fa-heart-o" style="margin-left:5px"></i>
+                     {{t "building.status_confirmed"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 2}}>
-                    Sold <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_sold"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 3}}>
-                    For Rent <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_for_rent"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 4}}>
-                    Rented <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_rented"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 5}}>
-                    For Sale <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_for_sale"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 6}}>
-                    Occupied <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_occupied"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 7}}>
-                    Tenure <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_tenure"}}
                   </a>
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 8}}>
-                    Heritary Tenure <i class="fa fa-heart" style="margin-left:5px"></i>
+                     {{t "building.status_heriatry_tenure"}}
                   </a>
                 </li>
               </ul>
             </div>
           </dd>
-          <dt>{{t index.size}}</dt>
+          <dt>{{t "index.size"}}</dt>
           <dd>
              {{input type="text" value=content.area class="form-control"}}
           </dd>
-          <dt>{{t index.description}}</dt>
+          <dt>{{t "index.description"}}</dt>
           <dd>
              {{#textarea value=content.description class="form-control"}}{{/textarea}}
           </dd>
         </dl>
-        <h3>{{t building.whyheading}}</h3>
-        <p>{{t buildingd.why}}</p>
+        <h3>{{t "building.whyheading"}}</h3>
+        <p>{{t "building.why"}}</p>
         {{#textarea value=content.newcomment class="form-control"}}{{/textarea}}
         {{#bs-button type="default" clicked="leaveEdit"}}
-          <span class="glyphicon glyphicon-remove"></span> {{t building.cancel}}
+          <span class="glyphicon glyphicon-remove"></span> {{t "building.cancel"}}
         {{/bs-button}}
         {{#bs-button type="default" clicked="executeEdit"}}
-          <span class="glyphicon glyphicon-pencil"></span> {{t building.edit}} 
+          <span class="glyphicon glyphicon-pencil"></span> {{t "building.edit"}} 
         {{/bs-button}}
       {{else}}
         {{#bs-button type="default" clicked="enterEdit"}}
-          <span class="glyphicon glyphicon-pencil"></span> {{t building.edit}}
+          <span class="glyphicon glyphicon-pencil"></span> {{t "building.edit"}}
         {{/bs-button}}
-        <h3><span class="glyphicon glyphicon-map-marker"></span> {{t index.location}}</h3>
+        <h3><span class="glyphicon glyphicon-map-marker"></span> {{t "index.location"}}</h3>
         <dl>
-          <dt>{{t index.street}}</dt>
+          <dt>{{t "index.street"}}</dt>
           <dd>
              {{model.street}}
           </dd>
-          <dt>{{t index.number}}</dt>
+          <dt>{{t "index.number"}}</dt>
           <dd>
              {{model.number}}
           </dd>
-          <dt>{{t index.city}}</dt>
+          <dt>{{t "index.city"}}</dt>
           <dd>
              {{model.city}}
           </dd>
-          <dt>{{t index.zip}}</dt>
+          <dt>{{t "index.zip"}}</dt>
           <dd>
              {{model.zip}}
           </dd>
         </dl>
-        <h3><span class="glyphicon glyphicon-user"></span> {{t index.contact}}</h3>
+        <h3><span class="glyphicon glyphicon-user"></span> {{t "index.contact"}}</h3>
         <dl>
-          <dt><span class="glyphicon glyphicon-user"></span> {{t index.contact_name}}</dt>
+          <dt><span class="glyphicon glyphicon-user"></span> {{t "index.contact_name"}}</dt>
           <dd>
              {{model.ownername}}
           </dd>
-          <dt><span class="glyphicon glyphicon-earphone"></span> {{t index.contact_phone}}</dt>
+          <dt><span class="glyphicon glyphicon-earphone"></span> {{t "index.contact_phone"}}</dt>
           <dd>
              {{model.ownerphone}}
           </dd>
-          <dt><span class="glyphicon glyphicon-envelope"></span> {{t index.contact_email}}</dt>
+          <dt><span class="glyphicon glyphicon-envelope"></span> {{t "index.contact_email"}}</dt>
           <dd>
              {{model.owneremail}}
           </dd>
         </dl>
-        <h3><span class="glyphicon glyphicon-home"></span> {{t index.info}}</h3>
+        <h3><span class="glyphicon glyphicon-home"></span> {{t "index.info"}}</h3>
         <dl>
-          <dt>{{t index.status}}</dt>
+          <dt>{{t "index.status"}}</dt>
           <dd>
              {{statusLabel}}
           </dd>
-          <dt>{{t index.size}}</dt>
+          <dt>{{t "index.size"}}</dt>
           <dd>
              {{model.area}}
           </dd>
-          <dt>{{t index.description}}</dt>
+          <dt>{{t "index.description"}}</dt>
           <dd>
              {{model.description}}
           </dd>
@@ -174,13 +174,13 @@
    </div>
    <div class="col-md-6">
     {{#bs-panel}}
-      <h2><span class="glyphicon glyphicon-comment"></span> {{t building.discussion}}</h2>
+      <h2><span class="glyphicon glyphicon-comment"></span> {{t "building.discussion"}}</h2>
       <dl>
-        <dt>{{t building.new_comment}}</dt>
+        <dt>{{t "building.new_comment"}}</dt>
         <dd>
           {{#textarea value=content.newcomment class="form-control"}}{{/textarea}}<br>
           {{#bs-button clicked="post" type="default"}}
-            <span class="glyphicon glyphicon-comment"></span> {{t building.post}} 
+            <span class="glyphicon glyphicon-comment"></span> {{t "building.post"}} 
           {{/bs-button}}<br>
         </dd>
       </dl>
@@ -189,7 +189,7 @@
             <blockquote>
               <h4>
                 <span class="glyphicon glyphicon-flash"></span>
-                {{comment.user.email}} {{t building.changed}} <small>{{fromNow value=comment.date}}</small>
+                {{comment.user.email}} {{t "building.changed"}} <small>{{fromNow value=comment.date}}</small>
               </h4>
               {{comment.text}}
             </blockquote>
@@ -197,13 +197,13 @@
             <blockquote>
               <h4>
                 <span class="glyphicon glyphicon-comment"></span>
-                {{t building.by}} {{comment.user.email}} <small>{{fromNow value=comment.date}}</small>
+                {{t "building.by"}} {{comment.user.email}} <small>{{fromNow value=comment.date}}</small>
               </h4>
               {{comment.text}}
             </blockquote>
           {{/if}}
       {{else}}
-        <div class="well"> {{t building.nothing}} </div>
+        <div class="well"> {{t "building.nothing"}} </div>
       {{/each}}
     {{/bs-panel}}
   </div>

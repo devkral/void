@@ -1,25 +1,25 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-    <h1>{{t invitation.heading}}</h1>
+    <h1>{{t "invitation.heading"}}</h1>
     <p>
-        {{t invitation.text}}
+        {{t "invitation.text"}}
     </p>
     <blockquote>
         {{email}}
     </blockquote>
     <dl>
-      <dt>{{t invitation.organization}}</dt>
+      <dt>{{t "invitation.organization"}}</dt>
       <dd>
         {{input type="text" value=organization class="form-control"}}
       </dd>
-      <dt>{{t invitation.password}}</dt>
+      <dt>{{t "invitation.password"}}</dt>
       <dd>
         {{input type="password" value=password class="form-control"}}
       </dd>
     </dl>
     {{#bs-button clicked="redeem" type="default"}}
-      <span class="glyphicon glyphicon-check"></span> {{t invitation.button}} 
+      <span class="glyphicon glyphicon-check"></span> {{t "invitation.button"}} 
     {{/bs-button}}
   </div>
 </div>
