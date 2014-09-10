@@ -93,7 +93,7 @@ func (r StaticResource) Register(wsContainer *restful.Container) {
 func (r StaticResource) serveStatic(req *restful.Request, resp *restful.Response) {
 	path := req.Request.URL.Path
 	if path == "/static/js/lang.js" {
-		switch req.Request.Header["Accept-Language"][0][0:1] {
+		switch req.Request.Header["Accept-Language"][0][0:2] {
 		case "de":
 			http.ServeFile(resp.ResponseWriter, req.Request, "static/js/translations/de_DE.js")
 		default:
