@@ -1,21 +1,19 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-    <h1> Invite a new User </h1>
+    <h1>{{t invitations.new.heading}}</h1>
     <p> 
-       Met someone new who is involved in your quest for a new place?
-       Invite him/her via email here to make your team stronger and let him/her
-       collaborate on this platform:
+      {{t invitations.new.text}}
     </p>
     {{input type="text" value=model.email placeholder="someone@somewhere.org" class="form-control"}}
     <br>
     {{#bs-button type="default" clicked="invite"}}
-      <span class="glyphicon glyphicon-plus"></span> Invite
+      <span class="glyphicon glyphicon-plus"></span> {{t invitations.new.invite}}
     {{/bs-button}}
     <br>
     {{#if linkPresent}}
       <p>
-        Please send your friend this link: 
+        {{t invitations.new.linktext}}
         {{#textarea class="form-control" value=inviteLink}}{{/textarea}}
       </p>
     {{/if}}
