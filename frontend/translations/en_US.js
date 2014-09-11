@@ -30,7 +30,7 @@ Em.I18n.translations = {
   'invitations.new.heading':'Invite a new User',
   'invitations.new.text':'Met someone new who is involved in your quest for a new place? Invite him/her here to make your team stronger and let him/her collaborate on this platform:',
   'invitations.new.invite':'Invite',
-  'invitations.linktext':'Please send your friend this link:',
+  'invitations.new.linktext':'Please send your friend this link:',
 
   'invitation.heading': 'Hi there!',
   'invitation.text': 'You have been invited to this void. Please help your friends search for a new place. Your username will be the email-address your friend provided:',

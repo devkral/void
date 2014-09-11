@@ -30,7 +30,7 @@ Em.I18n.translations = {
   'invitations.new.heading':'Einen neuen Nutzer einladen',
   'invitations.new.text':'Kennst du einen neuen Menschen, der mit deiner Objektsuche zu tun hat? Lade sie/ihn hierhin ein um deine Suche erfolgreicher zu machen und mit ihm/ihr zusammenarbeiten zu klnnen:',
   'invitations.new.invite':'Einladen',
-  'invitations.linktext':'Bitte sende deine(m/r) Freund(in) diesen Link:',
+  'invitations.new.linktext':'Bitte sende deine(m/r) Freund(in) diesen Link:',
 
   'invitation.heading': 'Hallo, du!',
   'invitation.text': 'Du wurdest in dieses VOID eineladen. Bitte hilf deinen freunden, nach einer neuen Immobilie zu suchen. Dein Nutzername wird die emailaddresse sein, die dein Freund angegeben hat:',
