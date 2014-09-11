@@ -37,7 +37,7 @@ class App.Invitation extends DS.Model
     password : DS.attr 'string'
 
 class App.InvitationsNewController extends Ember.Controller
-    inviteLink : ~> "#{HOST}/#/invitation/#{@content.link}"
+    inviteLink : ~> "#{window.location.protocol}//#{window.location.host}/#/invitation/#{@content.link}"
     linkPresent : ~> @content.link != ""
     actions:
         invite : ->

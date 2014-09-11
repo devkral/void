@@ -19,8 +19,6 @@
 # If not, see http://www.gnu.org/licenses/.
 ###########################################################
 
-HOST= "http://10.40.0.19"
-
 CLDR.defaultLocale = 'en'
 Ember.FEATURES.I18N_TRANSLATE_HELPER_SPAN = false
 
@@ -35,7 +33,6 @@ class App.ApplicationStore extends DS.Store
 
 DS.RESTAdapter.reopen
     namespace: 'rest'
-    host: HOST
     +volatile
     headers : ->
         Authorization : "Basic "+App.authstring
@@ -88,7 +85,7 @@ class App.IndexController extends Ember.ObjectController
         login : ->
             App.authstring = $.base64.btoa @content.login.username+":"+@content.login.password
             self = this
-            $.ajax HOST+"/auth",
+            $.ajax "/auth",
                 async: true
                 dataType: "json"
                 cache: false
