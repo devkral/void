@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    {{#bs-panel}}
+      <h1>{{t "user.edit.settings"}}</h1>
+      <h2>{{t "user.edit.change_password"}}</h2>
+      <dl>
+        <dt>{{t "user.edit.new_password"}}</dt>
+        <dd>
+          {{input type="password" value=password class="form-control"}}
+        </dd>
+      </dl>
+      {{#bs-button clicked="change"}}{{t "user.edit.change_password"}}{{/bs-button}}
+    {{/bs-panel}}
+  </div>
+</div>

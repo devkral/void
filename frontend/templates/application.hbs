@@ -30,6 +30,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+          {{#link-to "user.edit" ""}}{{t "application.settings"}}{{/link-to}}
+        </li>
+        <li>
           <a href="#" {{action logout}}>{{t "application.logout"}}</a>
         </li>
       </ul>

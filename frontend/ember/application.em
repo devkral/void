@@ -46,7 +46,8 @@ App.Router.map ->
         @route "map"
     @resource "building", {path: '/building/:ident'}, ->
         @resource "comments"
-    @resource "user", {path: '/user/:id'}
+    @resource "user", {path: '/user/:id'}, ->
+        @route "edit"
     @resource "invitations", ->
         @route "new"
     @resource "invitation", {path: '/invitation/:ident'}
@@ -121,7 +122,6 @@ class App.ApplicationController extends Ember.Controller
         if sessionStorage and sessionStorage.void_auth
             App.authstring = sessionStorage.void_auth
             @loggedin = true
-
     actions:
         logout: ->
             @resetAuthString()

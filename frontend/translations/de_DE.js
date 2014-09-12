@@ -5,6 +5,7 @@ Em.I18n.translations = {
   'application.list': 'Liste',
   'application.map': 'Karte',
   'application.invite' : 'Einladen',
+  'application.settings' : 'Einstellungen',
   'application.logout' : 'Ausloggen',
 
   'index.email': 'Email',
@@ -60,5 +61,9 @@ Em.I18n.translations = {
   'building.status_for_sale':'zu vermieten',
   'building.status_occupied' : 'besetzt',
   'building.status_tenure' : 'Pacht',
-  'building.status_heritary_tenure': 'Erbpacht'
+  'building.status_heritary_tenure': 'Erbpacht',
+
+  'user.edit.settings': 'Einstellungen',
+  'user.edit.change_password': 'Passwort Ändern',
+  'user.edit.new_password' : 'Neues Passwort'
 };

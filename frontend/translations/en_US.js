@@ -4,7 +4,8 @@ Em.I18n.translations = {
   'application.buildings': 'Buildings',
   'application.list': 'List',
   'application.map': 'Map',
-  'application.invite' : 'Invite',
+  'application.invite' : 'Invite',  
+  'application.settings': 'Settings',
   'application.logout' : 'Logout',
 
   'index.email': 'Email',
@@ -60,5 +61,9 @@ Em.I18n.translations = {
   'building.status_for_sale':'for sale',
   'building.status_occupied' : 'squatted',
   'building.status_tenure' : 'tenure',
-  'building.status_heritary_tenure': 'heritary_tenure'
+  'building.status_heritary_tenure': 'heritary_tenure',
+
+  'user.edit.settings': 'Settings',
+  'user.edit.change_password': 'Change Password',
+  'user.edit.new_password' : 'New Password'
 };

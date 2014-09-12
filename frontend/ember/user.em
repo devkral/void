@@ -19,9 +19,22 @@
 # If not, see http://www.gnu.org/licenses/.
 ###########################################################
 
+class App.UserEditRoute extends Ember.Route
+    model : (params) -> @store.find 'user', email : App.sessionUser()
+    setupController: (c, m) ->
+        c.model = m.objectAt 0
+
 class App.UserSerializer extends DS.RESTSerializer with CapitalAttrs
     keyForRelation: (key,name) -> key
 
 class App.User extends DS.Model
     email : DS.attr 'string'
     organization : DS.attr 'string'
+    password : DS.attr 'string'
+
+class App.UserEditController extends Ember.ObjectController
+    actions:
+        change : ->
+            @content.save()
+            @transitionToRoute 'index'
+    

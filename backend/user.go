@@ -89,6 +89,12 @@ func (u *User) SetPassword(pw string) {
 	u.Password = "" //Ensure the password will not be returned in PUT-JSON
 }
 
+func (u *User) Update(update *User) {
+	if update.Password != "" {
+		u.SetPassword(update.Password)
+	}
+}
+
 func (u *User) Save() error {
 	if !u.Id.Valid() {
 		u.Id = bson.NewObjectId()
@@ -135,7 +141,15 @@ func (r UserResource) editUser(req *restful.Request, resp *restful.Response) {
 		resp.WriteErrorString(http.StatusForbidden, "you must be logged in to do that")
 		return
 	}
-	//TODO:implement
+	uw := new(UserWrapper)
+	if err := req.ReadEntity(uw); err == nil {
+		reqUser.Update(uw.User)
+		if err := reqUser.Save(); err != nil {
+			resp.WriteErrorString(http.StatusInternalServerError, err.Error())
+		}
+	} else {
+		resp.WriteErrorString(http.StatusBadRequest, "malformed entity")
+	}
 }
 
 func (r UserResource) deleteUser(req *restful.Request, resp *restful.Response) {

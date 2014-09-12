@@ -24,10 +24,10 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"github.com/emicklei/go-restful"
-	"github.com/grindhold/gominatim"
 	"flag"
 	"fmt"
+	"github.com/emicklei/go-restful"
+	"github.com/grindhold/gominatim"
 	"io/ioutil"
 	"labix.org/v2/mgo"
 	"log"
@@ -47,7 +47,7 @@ type Config struct {
 var config *Config
 
 func LoadConfig() error {
-    args := parseCommandLineArgs()
+	args := parseCommandLineArgs()
 	configbytes, err := ioutil.ReadFile(args["configuration"].(string))
 	if err != nil {
 		log.Println("\tCould not read config. Fallback to default config!")
@@ -109,61 +109,64 @@ func main() {
 /** Command line arguments **/
 
 type port int16
+
 func (p *port) Set(s string) error {
 	v, err := strconv.ParseInt(s, 0, 16)
 	*p = port(v)
 	return err
 }
 func (p *port) Get() interface{} { return int(*p) }
-func (p *port) String() string { return fmt.Sprint(int16(*p)) }
+func (p *port) String() string   { return fmt.Sprint(int16(*p)) }
 
 type mongoServer string
+
 func (ms *mongoServer) Set(s string) error {
-    *ms = mongoServer(s)
-    return nil
+	*ms = mongoServer(s)
+	return nil
 }
-func (ms *mongoServer) Get() interface {} {return string(*ms)}
-func (ms *mongoServer) String() string {return ms.Get().(string)}
+func (ms *mongoServer) Get() interface{} { return string(*ms) }
+func (ms *mongoServer) String() string   { return ms.Get().(string) }
 
 type mongoDB string
+
 func (ms *mongoDB) Set(s string) error {
-    *ms = mongoDB(s)
-    return nil
+	*ms = mongoDB(s)
+	return nil
 }
-func (ms *mongoDB) Get() interface {} {return string(*ms)}
-func (ms *mongoDB) String() string {return ms.Get().(string)}
+func (ms *mongoDB) Get() interface{} { return string(*ms) }
+func (ms *mongoDB) String() string   { return ms.Get().(string) }
 
 type configuration string
+
 func (ms *configuration) Set(s string) error {
-    *ms = configuration(s)
-    return nil
+	*ms = configuration(s)
+	return nil
 }
-func (ms *configuration) Get() interface {} {return string(*ms)}
-func (ms *configuration) String() string {return ms.Get().(string)}
+func (ms *configuration) Get() interface{} { return string(*ms) }
+func (ms *configuration) String() string   { return ms.Get().(string) }
 
 func parseCommandLineArgs() map[string]interface{} {
 	var portFlag port = 80
 	flag.Var(&portFlag, "port", "the port void should bind to")
 
-    var mongoServerFlag mongoServer = "localhost"
-    flag.Var(&mongoServerFlag, "mongoserver", "the server mongodb is running on")
+	var mongoServerFlag mongoServer = "localhost"
+	flag.Var(&mongoServerFlag, "mongoserver", "the server mongodb is running on")
 
-    var mongoDBFlag mongoDB = "void"
-    flag.Var(&mongoDBFlag, "mongodb", "the mongodb-database this void shall use")
+	var mongoDBFlag mongoDB = "void"
+	flag.Var(&mongoDBFlag, "mongodb", "the mongodb-database this void shall use")
 
-    var configFlag configuration = ""
-    flag.Var(&configFlag, "configuration", "the configurationfile this void should use")
+	var configFlag configuration = ""
+	flag.Var(&configFlag, "configuration", "the configurationfile this void should use")
 
 	flag.Parse()
 
 	return map[string]interface{}{
-		"port": portFlag.Get(),
-        "mongoServer": mongoServerFlag.Get(),
-        "mongoDB": mongoDBFlag.Get(),
-        "configuration": configFlag.Get(),
+		"port":          portFlag.Get(),
+		"mongoServer":   mongoServerFlag.Get(),
+		"mongoDB":       mongoDBFlag.Get(),
+		"configuration": configFlag.Get(),
 	}
 }
-
 
 /** REST server **/
 
