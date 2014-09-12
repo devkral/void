@@ -32,7 +32,6 @@ import (
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -47,17 +46,9 @@ type Config struct {
 
 var config *Config
 
-func getArgValue(longarg string, shortarg string) (string, error) {
-	for x, arg := range os.Args {
-		if (arg == longarg || arg == shortarg) && len(os.Args)-1 >= x+1 {
-			return os.Args[x+1], nil
-		}
-	}
-	return "", errors.New("No such argument given")
-}
-
-func LoadConfig(file string) error {
-	configbytes, err := ioutil.ReadFile(file)
+func LoadConfig() error {
+    args := parseCommandLineArgs()
+	configbytes, err := ioutil.ReadFile(args["configuration"].(string))
 	if err != nil {
 		log.Println("\tCould not read config. Fallback to default config!")
 		goto defaultcfg
@@ -72,9 +63,9 @@ func LoadConfig(file string) error {
 	return nil
 defaultcfg:
 	config = &Config{
-		MongoDB:     "void",
-		MongoServer: "localhost",
-		WebPort:     80,
+		MongoDB:     args["mongoDB"].(string),
+		MongoServer: args["mongoServer"].(string),
+		WebPort:     args["port"].(int),
 	}
 	return errors.New("Fallback to default config.")
 }
@@ -82,8 +73,7 @@ defaultcfg:
 func main() {
 	log.Println("Entering the void.")
 	log.Println("\tLoad configuration...")
-	cfgname, _ := getArgValue("--configuration", "-c")
-	err := LoadConfig(cfgname)
+	err := LoadConfig()
 	log.Println("\tEstablishing connection to mongo DB...")
 	mng, err := mgo.Dial(config.MongoServer)
 	mongo = mng
@@ -127,14 +117,50 @@ func (p *port) Set(s string) error {
 func (p *port) Get() interface{} { return int(*p) }
 func (p *port) String() string { return fmt.Sprint(int16(*p)) }
 
+type mongoServer string
+func (ms *mongoServer) Set(s string) error {
+    *ms = mongoServer(s)
+    return nil
+}
+func (ms *mongoServer) Get() interface {} {return string(*ms)}
+func (ms *mongoServer) String() string {return ms.Get().(string)}
+
+type mongoDB string
+func (ms *mongoDB) Set(s string) error {
+    *ms = mongoDB(s)
+    return nil
+}
+func (ms *mongoDB) Get() interface {} {return string(*ms)}
+func (ms *mongoDB) String() string {return ms.Get().(string)}
+
+type configuration string
+func (ms *configuration) Set(s string) error {
+    *ms = configuration(s)
+    return nil
+}
+func (ms *configuration) Get() interface {} {return string(*ms)}
+func (ms *configuration) String() string {return ms.Get().(string)}
+
 func parseCommandLineArgs() map[string]interface{} {
 	var portFlag port = 80
 	flag.Var(&portFlag, "port", "the port void should bind to")
+
+    var mongoServerFlag mongoServer = "localhost"
+    flag.Var(&mongoServerFlag, "mongoserver", "the server mongodb is running on")
+
+    var mongoDBFlag mongoDB = "void"
+    flag.Var(&mongoDBFlag, "mongodb", "the mongodb-database this void shall use")
+
+    var configFlag configuration = ""
+    flag.Var(&configFlag, "configuration", "the configurationfile this void should use")
 
 	flag.Parse()
 
 	return map[string]interface{}{
 		"port": portFlag.Get(),
+        "mongoServer": mongoServerFlag.Get(),
+        "mongoDB": mongoDBFlag.Get(),
+        "configuration": configFlag.Get(),
 	}
 }
 
