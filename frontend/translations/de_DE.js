@@ -11,6 +11,7 @@ Em.I18n.translations = {
   'index.slogan': 'Vorrichtung zur Organisation von ImmobilienDingen',
   'index.login' : 'Login',
   'index.password': 'Passwort',
+  'index.loginerror': 'Falsche Email oder falsches Passwort',
   'index.postheading':'Neues Objekt melden',
   'index.location':'Lage',
   'index.street':'Straße',

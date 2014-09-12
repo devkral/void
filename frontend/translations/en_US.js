@@ -11,6 +11,7 @@ Em.I18n.translations = {
   'index.slogan': 'Your collaborative searchtool for immovables',
   'index.login' : 'Login',
   'index.password': 'Password',
+  'index.loginerror': 'Wrong email or password.',
   'index.postheading':'Post new Building',
   'index.location':'Location',
   'index.street':'Street',
