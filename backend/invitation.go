@@ -46,13 +46,13 @@ type Invitation struct {
 
 func LoadInvitationByEmail(eml string) (*Invitation, error) {
 	x := new(Invitation)
-	err := mongo.DB("void").C("invitations").Find(bson.M{"email": eml}).One(&x)
+	err := mongo.DB(config.MongoDB).C("invitations").Find(bson.M{"email": eml}).One(&x)
 	return x, err
 }
 
 func LoadInvitationById(id string) (*Invitation, error) {
 	x := new(Invitation)
-	err := mongo.DB("void").C("invitations").Find(bson.M{"id": id}).One(&x)
+	err := mongo.DB(config.MongoDB).C("invitations").Find(bson.M{"id": id}).One(&x)
 	return x, err
 }
 
@@ -71,7 +71,7 @@ func (i *Invitation) Invite() error {
 	}
 	i.MongoId = bson.NewObjectId()
 	i.Id = i.generateId()
-	err := mongo.DB("void").C("invitations").Insert(i)
+	err := mongo.DB(config.MongoDB).C("invitations").Insert(i)
 	return err
 }
 
@@ -81,7 +81,7 @@ func (i *Invitation) Activate(d *Invitation) error {
 	user.Organization = d.Organization
 	user.SetPassword(d.Password)
 	if err := user.Save(); err == nil {
-		return mongo.DB("void").C("invitations").Remove(bson.M{"id": i.Id})
+		return mongo.DB(config.MongoDB).C("invitations").Remove(bson.M{"id": i.Id})
 	} else {
 		return err
 	}

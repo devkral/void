@@ -80,13 +80,13 @@ type Building struct {
 
 func LoadBuildingById(id bson.ObjectId) (*Building, error) {
 	x := new(Building)
-	err := mongo.DB("void").C("buildings").Find(bson.M{"_id": id}).One(x)
+	err := mongo.DB(config.MongoDB).C("buildings").Find(bson.M{"_id": id}).One(x)
 	return x, err
 }
 
 func LoadBuildings() ([]*Building, error) {
 	x := make([]*Building, 0)
-	err := mongo.DB("void").C("buildings").Find(bson.M{}).All(&x)
+	err := mongo.DB(config.MongoDB).C("buildings").Find(bson.M{}).All(&x)
 	return x, err
 }
 
@@ -124,7 +124,7 @@ func (b *Building) Save() error {
 		b.getGeoloc()
 	} else {
 	}
-	_, err := mongo.DB("void").C("buildings").UpsertId(b.Id, b)
+	_, err := mongo.DB(config.MongoDB).C("buildings").UpsertId(b.Id, b)
 	return err
 }
 
@@ -161,7 +161,7 @@ func (b *Building) Update(u *Building, user *User) {
 }
 
 func (b *Building) Delete() error {
-	return mongo.DB("void").C("buildings").RemoveId(b.Id)
+	return mongo.DB(config.MongoDB).C("buildings").RemoveId(b.Id)
 }
 
 type BuildingResource struct{}

@@ -22,20 +22,68 @@
 package main
 
 import (
+	"encoding/json"
+	"errors"
 	"github.com/emicklei/go-restful"
 	"github.com/grindhold/gominatim"
 	"io/ioutil"
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 )
 
 var mongo *mgo.Session
 
+type Config struct {
+	MongoDB     string
+	MongoServer string
+
+	WebPort int
+}
+
+var config *Config
+
+func getArgValue(longarg string, shortarg string) (string, error) {
+	for x, arg := range os.Args {
+		if (arg == longarg || arg == shortarg) && len(os.Args)-1 >= x+1 {
+			return os.Args[x+1], nil
+		}
+	}
+	return "", errors.New("No such argument given")
+}
+
+func LoadConfig(file string) error {
+	configbytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Println("\tCould not read config. Fallback to default config!")
+		goto defaultcfg
+	}
+	config = new(Config)
+	err = json.Unmarshal(configbytes, config)
+	if err != nil {
+		log.Println("\tYour config is not valid JSON. Fallback to default config!")
+		goto defaultcfg
+	}
+	// Default Cfg
+	return nil
+defaultcfg:
+	config = &Config{
+		MongoDB:     "void",
+		MongoServer: "localhost",
+		WebPort:     80,
+	}
+	return errors.New("Fallback to default config.")
+}
+
 func main() {
 	log.Println("Entering the void.")
+	log.Println("\tLoad configuration...")
+	cfgname, _ := getArgValue("--configuration", "-c")
+	err := LoadConfig(cfgname)
 	log.Println("\tEstablishing connection to mongo DB...")
-	mng, err := mgo.Dial("localhost")
+	mng, err := mgo.Dial(config.MongoServer)
 	mongo = mng
 	if err != nil {
 		log.Fatal("Could not connect to mongodb!")
@@ -59,8 +107,9 @@ func main() {
 	gominatim.SetServer("http://open.mapquestapi.com/nominatim/v1")
 
 	// Bring up the http server
-	log.Println("\tStarting up the HTTP-Server")
-	server := &http.Server{Addr: ":80", Handler: wsContainer}
+	port := strconv.Itoa(config.WebPort)
+	log.Println("\tStarting up the HTTP-Server on port " + port)
+	server := &http.Server{Addr: ":" + port, Handler: wsContainer}
 	log.Fatal(server.ListenAndServe())
 }
 

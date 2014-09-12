@@ -51,13 +51,13 @@ type User struct {
 
 func LoadUserByEmail(email string) (*User, error) {
 	u := new(User)
-	err := mongo.DB("void").C("users").Find(bson.M{"email": email}).One(&u)
+	err := mongo.DB(config.MongoDB).C("users").Find(bson.M{"email": email}).One(&u)
 	return u, err
 }
 
 func LoadUserById(id bson.ObjectId) (*User, error) {
 	u := new(User)
-	err := mongo.DB("void").C("users").Find(bson.M{"_id": id}).One(&u)
+	err := mongo.DB(config.MongoDB).C("users").Find(bson.M{"_id": id}).One(&u)
 	return u, err
 }
 
@@ -93,7 +93,7 @@ func (u *User) Save() error {
 	if !u.Id.Valid() {
 		u.Id = bson.NewObjectId()
 	}
-	_, err := mongo.DB("void").C("users").UpsertId(u.Id, u)
+	_, err := mongo.DB(config.MongoDB).C("users").UpsertId(u.Id, u)
 	return err
 }
 

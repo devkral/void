@@ -57,7 +57,7 @@ func (c *Comment) Save() error {
 			building.AddComment(c)
 		}
 	}
-	_, err := mongo.DB("void").C("comments").UpsertId(c.Id, c)
+	_, err := mongo.DB(config.MongoDB).C("comments").UpsertId(c.Id, c)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (c *Comment) Delete() error {
 	if err == nil {
 		b.RemoveComment(c)
 	}
-	return mongo.DB("void").C("comments").RemoveId(c.Id)
+	return mongo.DB(config.MongoDB).C("comments").RemoveId(c.Id)
 }
 
 type CommentResource struct{}
@@ -161,12 +161,12 @@ func (r CommentResource) deleteComment(req *restful.Request, resp *restful.Respo
 
 func LoadCommentById(id bson.ObjectId) (*Comment, error) {
 	x := new(Comment)
-	err := mongo.DB("void").C("comments").Find(bson.M{"_id": id}).One(x)
+	err := mongo.DB(config.MongoDB).C("comments").Find(bson.M{"_id": id}).One(x)
 	return x, err
 }
 
 func LoadComments() ([]*Comment, error) {
 	x := make([]*Comment, 0)
-	err := mongo.DB("void").C("buildings").Find(bson.M{}).All(&x)
+	err := mongo.DB(config.MongoDB).C("buildings").Find(bson.M{}).All(&x)
 	return x, err
 }
