@@ -26,6 +26,8 @@ import (
 	"errors"
 	"github.com/emicklei/go-restful"
 	"github.com/grindhold/gominatim"
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"labix.org/v2/mgo"
 	"log"
@@ -110,8 +112,34 @@ func main() {
 	port := strconv.Itoa(config.WebPort)
 	log.Println("\tStarting up the HTTP-Server on port " + port)
 	server := &http.Server{Addr: ":" + port, Handler: wsContainer}
+	//	Addr: fmt.Sprintf(":%d", args["port"].(int)),
 	log.Fatal(server.ListenAndServe())
 }
+
+/** Command line arguments **/
+
+type port int16
+func (p *port) Set(s string) error {
+	v, err := strconv.ParseInt(s, 0, 16)
+	*p = port(v)
+	return err
+}
+func (p *port) Get() interface{} { return int(*p) }
+func (p *port) String() string { return fmt.Sprint(int16(*p)) }
+
+func parseCommandLineArgs() map[string]interface{} {
+	var portFlag port = 80
+	flag.Var(&portFlag, "port", "the port void should bind to")
+
+	flag.Parse()
+
+	return map[string]interface{}{
+		"port": portFlag.Get(),
+	}
+}
+
+
+/** REST server **/
 
 type Empty struct{}
 
