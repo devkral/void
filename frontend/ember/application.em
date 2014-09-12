@@ -97,6 +97,7 @@ class App.IndexController extends Ember.ObjectController
                         self.controllers.application.setAuthString App.authstring
                     else
                         self.controllers.application.resetAuthString()
+                        Bootstrap.NM.push(Em.I18n.translations['index.loginerror'], 'warning')
             return
 
 
