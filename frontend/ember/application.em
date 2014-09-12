@@ -101,10 +101,9 @@ class App.IndexController extends Ember.ObjectController
 
 
 class App.ApplicationRoute extends Ember.Route
-    model : -> null
-    setupController : (controller, model) ->
-        @_super controller,model
+    beforeModel: (t) ->
         @controllerFor('application').loadAuthString()
+    model : -> null
 
 class App.ApplicationController extends Ember.Controller
     loggedin : ~> false
