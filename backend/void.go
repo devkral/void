@@ -26,6 +26,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/dchest/captcha"
 	"github.com/emicklei/go-restful"
 	"github.com/grindhold/gominatim"
 	"io/ioutil"
@@ -35,7 +36,10 @@ import (
 	"strconv"
 )
 
-var mongo *mgo.Session
+var (
+	mongo         *mgo.Session
+	captchaServer http.Handler
+)
 
 type Config struct {
 	MongoDB     string
@@ -50,7 +54,7 @@ func LoadConfig() error {
 	args := parseCommandLineArgs()
 	configbytes, err := ioutil.ReadFile(args["configuration"].(string))
 	if err != nil {
-		log.Println("\tCould not read config. Fallback to default config!")
+		log.Println("\t\tCould not read " + args["configuration"].(string) + ". Fallback to default config!")
 		goto defaultcfg
 	}
 	config = new(Config)
@@ -74,7 +78,7 @@ func main() {
 	log.Println("Entering the void.")
 	log.Println("\tLoad configuration...")
 	err := LoadConfig()
-	log.Println("\tEstablishing connection to mongo DB...")
+	log.Println("\tEstablishing connection to mongo DB on " + config.MongoServer + " ... ")
 	mng, err := mgo.Dial(config.MongoServer)
 	mongo = mng
 	if err != nil {
@@ -91,6 +95,7 @@ func main() {
 	AuthResource{}.Register(wsContainer)
 	ViewResource{}.Register(wsContainer)
 	StaticResource{}.Register(wsContainer)
+	CaptchaResource{}.Register(wsContainer)
 
 	InitializeAdmin()
 
@@ -185,6 +190,27 @@ func (r ViewResource) viewHandler(req *restful.Request, resp *restful.Response) 
 	framecontent, _ := ioutil.ReadFile("index.html")
 	stringcontent := string(framecontent)
 	resp.ResponseWriter.Write([]byte(stringcontent))
+}
+
+type CaptchaResource struct{}
+
+func (r CaptchaResource) Register(wsContainer *restful.Container) {
+	ws := new(restful.WebService)
+	ws.Path("/captcha")
+	ws.Produces(restful.MIME_JSON)
+	ws.Route(ws.GET("/").To(r.captchaHandler))
+	ws.Route(ws.GET("/new/").To(r.newCaptcha))
+	captchaServer = captcha.Server(captcha.StdWidth, captcha.StdHeight)
+	wsContainer.Add(ws)
+}
+
+func (r CaptchaResource) captchaHandler(req *restful.Request, resp *restful.Response) {
+	captchaServer.ServeHTTP(resp.ResponseWriter, req.Request)
+}
+
+func (r CaptchaResource) newCaptcha(req *restful.Request, resp *restful.Response) {
+	id := captcha.New()
+	resp.WriteEntity(struct{ CaptchaId string }{id})
 }
 
 type StaticResource struct{}

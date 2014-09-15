@@ -28,6 +28,10 @@ Em.I18n.translations = {
   'index.status': 'Status',
   'index.description': 'Description',
   'index.post':'Post',
+  'index.captchatext':'Please solve this Captcha:',
+  'index.captchafail':'Please enter the Captcha correctly.',
+  'index.postsuccess':'The object has been posted. Thank you very much :)',
+  'index.postfailure':'Something went wrong :(',
 
   'invitations.new.heading':'Invite a new User',
   'invitations.new.text':'Met someone new who is involved in your quest for a new place? Invite him/her here to make your team stronger and let him/her collaborate on this platform:',

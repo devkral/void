@@ -71,6 +71,11 @@
          {{#textarea value=building.description class="form-control"}}{{/textarea}}
       </dd>
     </dl> 
+    <p>
+      {{t "index.captchatext"}}<br>
+      <img {{bind-attr src=captchaimg}}><br>
+      {{input type="text" value=building.captcha class="form-control"}}<br>
+    </p>
     {{#bs-button type="default" clicked="post_building"}}{{t "index.post"}}{{/bs-button}}
   </div>
   <div class="col-md-1"></div>

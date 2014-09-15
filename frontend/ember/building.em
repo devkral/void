@@ -54,6 +54,8 @@ class App.Building extends DS.Model
 
     comments : DS.hasMany 'comment', async:true
     newcomment : DS.attr 'string'
+    captcha : DS.attr 'string'
+    captchaid : DS.attr 'string'
 
 class App.BuildingsController extends Ember.ArrayController
 

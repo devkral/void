@@ -67,9 +67,22 @@ class App.IndexRoute extends Ember.Route
                       owneremail  : ""
                       area : 0
                       description : ""
+                      captcha :""
+    setupController : (c, m) ->
+        @_super c, m
+        c.loadCaptcha()
 
 class App.IndexController extends Ember.ObjectController
     needs: ['application']
+    captchaimg : ~> if @captchaid != "" then "/captcha/#{@captchaid}.png" else ""
+    captchaid : ~> ""
+    loadCaptcha: ->
+        self = this
+        $.ajax "/captcha/new",
+            async:true
+            dataType:"json"
+            success: (data, status, xhr) ->
+                self.captchaid = data.CaptchaId
     actions:
         post_building: ->
             b = @store.createRecord 'building',
@@ -82,7 +95,16 @@ class App.IndexController extends Ember.ObjectController
                     owneremail : @content.building.owneremail
                     area        : @content.building.area
                     description : @content.building.descritpion
-            b.save()
+                    captcha: @content.building.captcha
+                    captchaid: @captchaid
+            b.save().then( ->
+                Bootstrap.NM.push (Em.I18n.t 'index.postsuccess'), 'success'
+            ).catch( (reason) ->
+                if reason.status == 403
+                  Bootstrap.NM.push (Em.I18n.t 'index.captchafail'), 'warning'
+                else
+                  Bootstrap.NM.push (Em.I18n.t 'index.postfailure'), 'danger'
+            )
         login : ->
             App.authstring = $.base64.btoa @content.login.username+":"+@content.login.password
             self = this

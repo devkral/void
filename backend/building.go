@@ -22,6 +22,7 @@
 package main
 
 import (
+	"github.com/dchest/captcha"
 	"github.com/emicklei/go-restful"
 	"github.com/grindhold/gominatim"
 	"labix.org/v2/mgo/bson"
@@ -76,6 +77,9 @@ type Building struct {
 	Newcomment string
 
 	Comments []bson.ObjectId `json:"comments"`
+
+	Captchaid string `bson:"-"`
+	Captcha   string `bson:"-"`
 }
 
 func LoadBuildingById(id bson.ObjectId) (*Building, error) {
@@ -214,6 +218,10 @@ func (r BuildingResource) createBuilding(req *restful.Request, resp *restful.Res
 	bw := new(BuildingWrapper)
 	err := req.ReadEntity(bw)
 	if err == nil {
+		if !captcha.VerifyString(bw.Building.Captchaid, bw.Building.Captcha) {
+			resp.WriteErrorString(http.StatusForbidden, "Wrong captcha")
+			return
+		}
 		bw.Building.Save()
 		resp.WriteEntity(bw)
 	} else {

@@ -28,6 +28,10 @@ Em.I18n.translations = {
   'index.status': 'Status',
   'index.description': 'Beschreibung',
   'index.post':'Eintragen',
+  'index.captchatext':'Bitte löse noch das Captcha hier:',
+  'index.captchafail':'Bitte löse das Captcha richtig.',
+  'index.postsuccess':'Das Objekt wurde eingetragen. Dankeschön :)',
+  'index.postfailure':'Irgendetwas ging schief :(',
 
   'invitations.new.heading':'Einen neuen Nutzer einladen',
   'invitations.new.text':'Kennst du einen neuen Menschen, der mit deiner Objektsuche zu tun hat? Lade sie/ihn hierhin ein um deine Suche erfolgreicher zu machen und mit ihm/ihr zusammenarbeiten zu klnnen:',
