@@ -39,6 +39,7 @@ Em.I18n.translations = {
   'invitation.organization': 'Organisation',
   'invitation.password':'Passwort',
   'invitation.button':'Einladung einlösen',
+  'invitation.redeemed':'Deine Einladung wurde eingelöst. Willkommen.',
 
   'buildings.list.details':'Details',
   'buildings.list.nothing':'Keine Immobilien',

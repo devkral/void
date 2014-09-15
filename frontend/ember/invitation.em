@@ -48,7 +48,28 @@ class App.InvitationsNewController extends Ember.Controller
                 self.content.link = x.id
 
 class App.InvitationController extends Ember.ObjectController
+    needs: ['application']
     actions :
         redeem : ->
-            @content.save()
-            @transitionTo "index"
+            self = this
+            login = ->
+                App.authstring = $.base64.btoa self.content.email+":"+self.content.password
+                $.ajax "/auth",
+                    async: true
+                    dataType: "json"
+                    cache: false
+                    headers:
+                        Authorization: "Basic "+App.authstring
+                    success: (data, status, xhr) ->
+                        self.controllers.application.loggedin = data.Valid
+                        if data.Valid
+                            self.controllers.application.setAuthString App.authstring
+                            Bootstrap.NM.push Em.I18n.t "invitation.redeemed", "success"
+                            self.transitionTo "index"
+            #FIXME: this is dirty stuff. for some reason then does not get
+            #       executed. instead the catch-callback is being called with a
+            #       xhr-response object. find out why this is like that and implement
+            #       a proper solution
+            @content.save().then(login).catch (reason) ->
+                if reason.status == 200
+                    login()
