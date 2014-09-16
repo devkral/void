@@ -16,7 +16,7 @@ Em.I18n.translations = {
   'index.postheading':'Neues Objekt melden',
   'index.location':'Lage',
   'index.street':'Straße',
-  'index.number':'Hausenummer',
+  'index.number':'Hausnummer',
   'index.city':'Stadt',
   'index.zip':'PLZ',
   'index.contact': 'Kontaktperson',
