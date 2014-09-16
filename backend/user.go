@@ -62,12 +62,23 @@ func LoadUserById(id bson.ObjectId) (*User, error) {
 }
 
 func InitializeAdmin() {
-	if _, err := LoadUserByEmail("admin@nonexistent.invalid"); err != nil {
-		admin := new(User)
-		admin.Email = "admin@nonexistent.invalid"
-		admin.Organization = "adminorga"
-		admin.SetPassword("admin")
-		admin.Save()
+	if config.AdminName != "" && config.AdminPassword != "" && config.AdminSalt != 0 {
+		if _, err := LoadUserByEmail(config.AdminName); err != nil {
+			admin := new(User)
+			admin.Email = config.AdminName
+			admin.Organization = "admin"
+			admin.IPassword = config.AdminPassword
+			admin.ISalt = config.AdminSalt
+			admin.Save()
+		}
+	} else {
+		if _, err := LoadUserByEmail("admin@nonexistent.invalid"); err != nil {
+			admin := new(User)
+			admin.Email = "admin@nonexistent.invalid"
+			admin.Organization = "admin"
+			admin.SetPassword("admin")
+			admin.Save()
+		}
 	}
 }
 

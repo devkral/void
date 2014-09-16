@@ -46,6 +46,10 @@ type Config struct {
 	MongoServer string
 
 	WebPort int
+
+	AdminName     string
+	AdminPassword string
+	AdminSalt     int64
 }
 
 var config *Config
@@ -67,9 +71,12 @@ func LoadConfig() error {
 	return nil
 defaultcfg:
 	config = &Config{
-		MongoDB:     args["mongoDB"].(string),
-		MongoServer: args["mongoServer"].(string),
-		WebPort:     args["port"].(int),
+		MongoDB:       args["mongoDB"].(string),
+		MongoServer:   args["mongoServer"].(string),
+		WebPort:       args["port"].(int),
+		AdminName:     "",
+		AdminPassword: "",
+		AdminSalt:     0,
 	}
 	return errors.New("Fallback to default config.")
 }
