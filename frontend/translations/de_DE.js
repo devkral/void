@@ -16,7 +16,7 @@ Em.I18n.translations = {
   'index.postheading':'Neues Objekt melden',
   'index.location':'Lage',
   'index.street':'Straße',
-  'index.number':'Hausenummer',
+  'index.number':'Hausnummer',
   'index.city':'Stadt',
   'index.zip':'PLZ',
   'index.contact': 'Kontaktperson',
@@ -39,7 +39,7 @@ Em.I18n.translations = {
   'invitations.new.linktext':'Bitte sende deine(m/r) Freund(in) diesen Link:',
 
   'invitation.heading': 'Hallo, du!',
-  'invitation.text': 'Du wurdest in dieses VOID eineladen. Bitte hilf deinen freunden, nach einer neuen Immobilie zu suchen. Dein Nutzername wird die emailaddresse sein, die dein Freund angegeben hat:',
+  'invitation.text': 'Du wurdest in dieses VOID eingeladen. Bitte hilf deinen freunden, nach einer neuen Immobilie zu suchen. Dein Nutzername wird die emailaddresse sein, die dein Freund angegeben hat:',
   'invitation.organization': 'Organisation',
   'invitation.password':'Passwort',
   'invitation.button':'Einladung einlösen',
