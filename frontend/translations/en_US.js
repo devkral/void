@@ -66,7 +66,7 @@ Em.I18n.translations = {
   'building.status_for_sale':'for sale',
   'building.status_occupied' : 'squatted',
   'building.status_tenure' : 'tenure',
-  'building.status_heritary_tenure': 'heritary_tenure',
+  'building.status_hereditary_tenure': 'heritary_tenure',
 
   'user.edit.settings': 'Settings',
   'user.edit.change_password': 'Change Password',
