@@ -73,4 +73,5 @@ class App.MultiMapComponent extends Ember.Component
             maxZoom: 18
         layer.addTo(@map)
         @positionObserver()
-
+        bounds = L.latLngBounds @buildings.map (building) -> [building.lat_f,building.lon_f],{paddingTopLeft: [200,0]}
+        @map.fitBounds bounds,{padding: [50,50]}
