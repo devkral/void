@@ -72,7 +72,7 @@ class App.BuildingController extends Ember.ObjectController
          5 : Em.I18n.t('building.status_for_sale')
          6 : Em.I18n.t('building.status_occupied')
          7 : Em.I18n.t('building.status_tenure')
-         8 : Em.I18n.t('building.status_heritary_tenure')
+         8 : Em.I18n.t('building.status_hereditary_tenure')
     reversecomments : ~> @content.comments.toArray().reverse()
     oldData : null
     editMode : ~> false
