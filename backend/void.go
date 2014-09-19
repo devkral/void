@@ -50,6 +50,8 @@ type Config struct {
 	AdminName     string
 	AdminPassword string
 	AdminSalt     int64
+
+    AssetPath     string
 }
 
 var config *Config
@@ -77,6 +79,7 @@ defaultcfg:
 		AdminName:     "",
 		AdminPassword: "",
 		AdminSalt:     0,
+        AssetPath:     "",
 	}
 	return errors.New("Fallback to default config.")
 }
@@ -194,7 +197,7 @@ func (r ViewResource) Register(wsContainer *restful.Container) {
 }
 
 func (r ViewResource) viewHandler(req *restful.Request, resp *restful.Response) {
-	framecontent, _ := ioutil.ReadFile("index.html")
+	framecontent, _ := ioutil.ReadFile(config.AssetPath+"index.html")
 	stringcontent := string(framecontent)
 	resp.ResponseWriter.Write([]byte(stringcontent))
 }
@@ -234,11 +237,11 @@ func (r StaticResource) serveStatic(req *restful.Request, resp *restful.Response
 	if path == "/static/js/lang.js" {
 		switch req.Request.Header["Accept-Language"][0][0:2] {
 		case "de":
-			http.ServeFile(resp.ResponseWriter, req.Request, "static/js/translations/de_DE.js")
+			http.ServeFile(resp.ResponseWriter, req.Request, config.AssetPath+"static/js/translations/de_DE.js")
 		default:
-			http.ServeFile(resp.ResponseWriter, req.Request, "static/js/translations/en_US.js")
+			http.ServeFile(resp.ResponseWriter, req.Request, config.AssetPath+"static/js/translations/en_US.js")
 		}
 	} else {
-		http.ServeFile(resp.ResponseWriter, req.Request, path[1:])
+		http.ServeFile(resp.ResponseWriter, req.Request, config.AssetPath+path[1:])
 	}
 }
