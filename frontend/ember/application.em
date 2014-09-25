@@ -97,8 +97,10 @@ class App.IndexController extends Ember.ObjectController
                     description : @content.building.descritpion
                     captcha: @content.building.captcha
                     captchaid: @captchaid
+            self = this
             b.save().then( ->
                 Bootstrap.NM.push (Em.I18n.t 'index.postsuccess'), 'success'
+                self.loadCaptcha()
             ).catch( (reason) ->
                 if reason.status == 403
                   Bootstrap.NM.push (Em.I18n.t 'index.captchafail'), 'warning'
