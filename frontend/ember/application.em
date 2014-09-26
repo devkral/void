@@ -120,9 +120,10 @@ class App.IndexController extends Ember.ObjectController
                     self.controllers.application.loggedin = data.Valid
                     if data.Valid
                         self.controllers.application.setAuthString App.authstring
+                        Bootstrap.NM.push(Em.I18n.t('index.loginsuccess'), 'success')
                     else
                         self.controllers.application.resetAuthString()
-                        Bootstrap.NM.push(Em.I18n.translations['index.loginerror'], 'warning')
+                        Bootstrap.NM.push(Em.I18n.t('index.loginerror'), 'warning')
             return
 
 

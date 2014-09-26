@@ -13,6 +13,7 @@ Em.I18n.translations = {
   'index.login' : 'Login',
   'index.password': 'Password',
   'index.loginerror': 'Wrong email or password.',
+  'index.loginsuccess': 'You logged in successfully.',
   'index.postheading':'Post new Building',
   'index.location':'Location',
   'index.street':'Street',
