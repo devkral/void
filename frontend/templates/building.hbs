@@ -92,7 +92,7 @@
                 </li>
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#" {{action setStatus 8}}>
-                     {{t "building.status_heriatry_tenure"}}
+                     {{t "building.status_heritary_tenure"}}
                   </a>
                 </li>
               </ul>
@@ -101,6 +101,26 @@
           <dt>{{t "index.size"}}</dt>
           <dd>
              {{input type="text" value=content.area class="form-control"}}
+          </dd>
+          <dt>{{t "building.year"}}</dt>
+          <dd>
+             {{input type="text" value=content.year class="form-control"}}
+          </dd>
+          <dt>{{t "building.type"}}</dt>
+          <dd>
+             {{input type="text" value=content.type class="form-control"}}
+          </dd>
+          <dt>{{t "building.floor"}}</dt>
+          <dd>
+             {{input type="text" value=content.floor class="form-control"}}
+          </dd>
+          <dt>{{t "building.condition"}}</dt>
+          <dd>
+             {{input type="text" value=content.condition class="form-control"}}
+          </dd>
+          <dt>{{t "building.neighborhood"}}</dt>
+          <dd>
+             {{#textarea value=content.neighborhood class="form-control"}}{{/textarea}}
           </dd>
           <dt>{{t "index.description"}}</dt>
           <dd>

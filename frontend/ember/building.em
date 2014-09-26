@@ -46,7 +46,12 @@ class App.Building extends DS.Model
     ownerphone : DS.attr 'string'
     owneremail : DS.attr 'string'
 
-    area : DS.attr 'number'
+    area        : DS.attr 'number'
+    year        : DS.attr 'number'
+    type        : DS.attr 'string'
+    floor       : DS.attr 'string'
+    condition   : DS.attr 'string'
+    neighborhood: DS.attr 'string'
     
     description : DS.attr 'string'
     
