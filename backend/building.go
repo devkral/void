@@ -73,7 +73,7 @@ type Building struct {
   Type string
   Floor string
   Condition string
-  Neightborhood string
+  Neighborhood string
 
 	Description string
 
