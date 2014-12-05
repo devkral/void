@@ -68,12 +68,12 @@ type Building struct {
 	Ownerphone string
 	Owneremail string
 
-	Area int
-  Year int
-  Type string
-  Floor string
-  Condition string
-  Neightborhood string
+	Area         int
+	Year         int
+	Type         string
+	Floor        string
+	Condition    string
+	Neighborhood string
 
 	Description string
 
@@ -155,10 +155,10 @@ func (b *Building) Update(u *Building, user *User) {
 	b.Lon_f = u.Lon_f
 
 	b.Area = u.Area
-  b.Year = u.Year
-  b.Floor = u.Floor
-  b.Condition = u.Condition
-  b.Neighborhood = u.Neighborhood
+	b.Year = u.Year
+	b.Floor = u.Floor
+	b.Condition = u.Condition
+	b.Neighborhood = u.Neighborhood
 
 	b.Description = u.Description
 
