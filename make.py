@@ -126,6 +126,15 @@ if __name__ == '__main__':
     debug = True
     if len(sys.argv) > 1 and sys.argv[1] == "--production":
         debug = False
+
+    if os.system("which go") != 0:
+        print("Go has not been found on the system. Get it from https://golang.org")
+        sys.exit(1)
+
+    if os.system("which ember-script") != 0:
+        print("There is no ember-script compiler on the system. Available best via npm")
+        sys.exit(1)
+
     compile_go(debug)
     compile_emberscript(debug)
     packproject()
