@@ -51,7 +51,7 @@ type Config struct {
 	AdminPassword string
 	AdminSalt     int64
 
-    AssetPath     string
+	AssetPath string
 }
 
 var config *Config
@@ -79,7 +79,7 @@ defaultcfg:
 		AdminName:     "",
 		AdminPassword: "",
 		AdminSalt:     0,
-        AssetPath:     "",
+		AssetPath:     "",
 	}
 	return errors.New("Fallback to default config.")
 }
@@ -197,7 +197,7 @@ func (r ViewResource) Register(wsContainer *restful.Container) {
 }
 
 func (r ViewResource) viewHandler(req *restful.Request, resp *restful.Response) {
-	framecontent, _ := ioutil.ReadFile(config.AssetPath+"index.html")
+	framecontent, _ := ioutil.ReadFile(config.AssetPath + "index.html")
 	stringcontent := string(framecontent)
 	resp.ResponseWriter.Write([]byte(stringcontent))
 }
@@ -208,7 +208,7 @@ func (r CaptchaResource) Register(wsContainer *restful.Container) {
 	ws := new(restful.WebService)
 	ws.Path("/captcha")
 	ws.Produces(restful.MIME_JSON)
-	ws.Route(ws.GET("/").To(r.captchaHandler))
+	ws.Route(ws.GET("/{pic}").To(r.captchaHandler))
 	ws.Route(ws.GET("/new/").To(r.newCaptcha))
 	captchaServer = captcha.Server(captcha.StdWidth, captcha.StdHeight)
 	wsContainer.Add(ws)
