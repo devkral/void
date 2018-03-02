@@ -54,7 +54,7 @@ Get the dependencies together:
 git clone https://github.com/grindhold/void
 mv void $GOPATH/src/
 cd $GOPATH/src/
-python2 make.py
+python3 make.py
 ```
 
 make.py generates a folder named build, which contains everything you need to deploy on a
